@@ -1,6 +1,6 @@
 ﻿using GoCommando;
 
-namespace CountWordcula.Read;
+namespace CountWordcula.Count;
 
 [Command("count-words")]
 [Description("Read data from multiple files in a given directory.")]

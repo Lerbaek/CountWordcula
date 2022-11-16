@@ -1,5 +1,5 @@
 ﻿using Castle.Core.Logging;
-using CountWordcula.Read;
+using CountWordcula.Count;
 using Microsoft.Extensions.Logging;
 using Xunit;
 

@@ -1,4 +1,4 @@
-﻿using CountWordcula.Read;
+﻿using CountWordcula.Count;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.DependencyInjection;

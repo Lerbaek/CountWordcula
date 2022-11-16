@@ -1,7 +1,6 @@
-﻿using System.Dynamic;
-using GoCommando;
+﻿using GoCommando;
 
-namespace CountWordcula.Read;
+namespace CountWordcula.Count;
 
 public interface ICountWords : ICommand
 {
