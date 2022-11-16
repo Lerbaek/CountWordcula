@@ -1,4 +1,6 @@
-﻿using CountWordcula.Read;
+﻿using Castle.Core.Logging;
+using CountWordcula.Read;
+using Microsoft.Extensions.Logging;
 using Xunit;
 
 namespace CountWordcula.Test
@@ -6,12 +8,18 @@ namespace CountWordcula.Test
   public class CountWordsTests
   {
     private readonly ICountWords uut;
+    private readonly ILogger<CountWordsTests> logger;
 
-    public CountWordsTests(ICountWords uut) => this.uut = uut;
+    public CountWordsTests(ICountWords uut, ILogger<CountWordsTests> logger)
+    {
+      this.uut = uut;
+      this.logger = logger;
+    }
 
     [Fact]
     public void Run_WordsAreCounted_OutputFilesContainCorrectData()
     {
+      logger.LogInformation("Logging works.");
     }
   }
 }
