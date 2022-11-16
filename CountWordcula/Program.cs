@@ -1,10 +1,9 @@
-﻿namespace CountWordcula
+﻿using GoCommando;
+
+namespace CountWordcula
 {
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            Console.WriteLine("Hello, World!");
-        }
-    }
+  internal class Program
+  {
+    private static void Main() => Go.Run();
+  }
 }
