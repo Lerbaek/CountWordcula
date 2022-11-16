@@ -5,6 +5,8 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountWordcula", "CountWordcula\CountWordcula.csproj", "{1FE70496-F68E-47FC-B385-EDC6B20CDCF9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountWordcula.Test", "CountWordcula.Test\CountWordcula.Test.csproj", "{32FBDC2D-5115-483B-835B-2E00F21F8A95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{1FE70496-F68E-47FC-B385-EDC6B20CDCF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1FE70496-F68E-47FC-B385-EDC6B20CDCF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1FE70496-F68E-47FC-B385-EDC6B20CDCF9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32FBDC2D-5115-483B-835B-2E00F21F8A95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32FBDC2D-5115-483B-835B-2E00F21F8A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32FBDC2D-5115-483B-835B-2E00F21F8A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32FBDC2D-5115-483B-835B-2E00F21F8A95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
