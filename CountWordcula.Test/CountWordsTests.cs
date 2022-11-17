@@ -29,8 +29,8 @@ namespace CountWordcula.Test
     }
 
     [SkippableTheory]
-    [InlineData("a", true)]
-    public void Run_CountOutputFiles_ExpectedFilesExist(string letter, bool expected)
+    [InlineData('A', true)]
+    public void Run_CountOutputFiles_ExpectedFilesExist(char letter, bool expected)
     {
       if (!OutputFiles.Any())
       {
@@ -38,7 +38,7 @@ namespace CountWordcula.Test
         throw new SkipException();
       }
 
-      var fileName = $"FILE_{letter.ToUpper()}.{CountWords.ExtensionDefaultValue}";
+      var fileName = $"FILE_{letter}.{CountWords.ExtensionDefaultValue}";
       var filePath = Path.Combine(uut.OutputPath, fileName);
       File.Exists(filePath).Should().Be(expected);
     }
