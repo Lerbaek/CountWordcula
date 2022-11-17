@@ -94,6 +94,45 @@ public class CountWords : ICountWords
   {
     SanitizeInput();
     ValidateInput();
+
+    var inputFileNames = Directory.GetFiles(InputPath);
+    var wordCountTasks = new List<Task<IDictionary<string, long>>>();
+    foreach (var fileName in inputFileNames)
+    {
+      var fileReader = Provider.GetRequiredService<IFileReader>();
+      var wordCountTask = fileReader.GetWordCountAsync(fileName);
+      wordCountTasks.Add(wordCountTask);
+    }
+
+    var wordCounts = Task.WhenAll(wordCountTasks).Result;
+    var wordCount = wordCounts.First();
+
+    foreach (var result in wordCounts.Skip(1))
+    {
+      foreach (var key in result.Keys)
+      {
+        if (wordCount.ContainsKey(key))
+          wordCount[key] += result[key];
+        else
+          wordCount.Add(key, result[key]);
+      }
+    }
+
+    var streamWriters = new Dictionary<char, StreamWriter>();
+    foreach (var key in wordCount.Keys)
+    {
+      if (string.IsNullOrWhiteSpace(key)) continue; // Happens with double spaces and line breaks
+      var firstLetter = key[0];
+      if (!streamWriters.TryGetValue(firstLetter, out var streamWriter))
+      {
+        var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{firstLetter}.{Extension}"), FileMode.Create);
+        streamWriter = new StreamWriter(fileStream);
+        streamWriters.Add(firstLetter, streamWriter);
+      }
+      streamWriter.WriteLineAsync($"{key} {wordCount[key]}").Wait(); // Todo: Make real async when this is moved to separate, async method
+    }
+
+    Parallel.ForEach(streamWriters.Values, writer => writer.Dispose());
   }
 
   private void SanitizeInput() => Extension = Extension.TrimStart('.');
