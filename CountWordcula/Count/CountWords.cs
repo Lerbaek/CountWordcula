@@ -1,3 +1,4 @@
+﻿using CountWordcula.Validate;
 ﻿using GoCommando;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -43,6 +44,16 @@ public class CountWords : ICountWords
 
   public void Run()
   {
-    throw new NotImplementedException();
+    ValidateInput();
+  }
+
+  private void ValidateInput()
+  {
+    var validation = Provider
+      .GetRequiredService<CountWordsValidator>()
+      .Validate(this);
+
+    if (!validation.IsValid)
+      Environment.Exit(1);
   }
 }
