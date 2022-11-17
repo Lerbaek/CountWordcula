@@ -6,7 +6,7 @@ namespace CountWordcula.Validate;
 
 public class CountWordsValidator : AbstractValidator<CountWords>
 {
-  private readonly ILogger logger = null!;
+  private readonly ILogger<CountWordsValidator> logger;
 
   public CountWordsValidator(ILogger<CountWordsValidator> logger)
   {
