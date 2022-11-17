@@ -1,4 +1,5 @@
-﻿using CountWordcula.Validate;
+﻿using CountWordcula.Backend.FileReader;
+using CountWordcula.Validate;
 using GoCommando;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
@@ -64,6 +65,7 @@ public class CountWords : ICountWords
             .WriteTo.Console()
             .CreateLogger()))
       .AddSingleton<CountWordsValidator>()
+      .AddSingleton<IFileReader, FluentFileReader>()
       .BuildServiceProvider();
   }
 

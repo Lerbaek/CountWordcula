@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountWordcula", "CountWordc
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountWordcula.Test", "CountWordcula.Test\CountWordcula.Test.csproj", "{32FBDC2D-5115-483B-835B-2E00F21F8A95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CountWordcula.Backend", "CountWordcula.Backend\CountWordcula.Backend.csproj", "{91B329DB-41DA-41F5-98D6-2A41637E3AE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{32FBDC2D-5115-483B-835B-2E00F21F8A95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{32FBDC2D-5115-483B-835B-2E00F21F8A95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{32FBDC2D-5115-483B-835B-2E00F21F8A95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91B329DB-41DA-41F5-98D6-2A41637E3AE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91B329DB-41DA-41F5-98D6-2A41637E3AE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91B329DB-41DA-41F5-98D6-2A41637E3AE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91B329DB-41DA-41F5-98D6-2A41637E3AE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
