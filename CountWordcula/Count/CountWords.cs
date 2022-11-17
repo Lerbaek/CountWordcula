@@ -48,7 +48,7 @@ public class CountWords : ICountWords
 
   #region Default values
 
-  private const string ExtensionDefaultValue = "txt";
+  public const string ExtensionDefaultValue = "txt";
 
   #endregion
 

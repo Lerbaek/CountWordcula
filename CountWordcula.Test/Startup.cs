@@ -10,7 +10,9 @@ public class Startup
 {
   public void ConfigureServices(IServiceCollection services)
   {
-    services.AddTransient<ICountWords, CountWords>();
+    services
+      .AddSkippableFactSupport()
+      .AddTransient<ICountWords, CountWords>();
   }
 
   public void Configure(ILoggerFactory loggerFactory, ITestOutputHelperAccessor accessor) =>

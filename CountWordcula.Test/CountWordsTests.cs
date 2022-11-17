@@ -1,4 +1,5 @@
 ﻿using CountWordcula.Count;
+using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
@@ -20,12 +21,38 @@ namespace CountWordcula.Test
     }
 
     [Fact]
-    public void Run_WordsAreCounted_OutputFilesContainCorrectData()
+    public void Run_CountOutputFiles_OutputFilesExist()
     {
-      if (Directory.Exists(uut.OutputPath))
-        Directory.CreateDirectory(uut.OutputPath);
+      OutputFiles
+        .Should()
+        .NotBeEmpty($"{nameof(uut.Run)}() method should have produced output files to {uut.OutputPath}");
+    }
 
-      uut.Run();
+    [SkippableTheory]
+    [InlineData("a", true)]
+    public void Run_CountOutputFiles_ExpectedFilesExist(string letter, bool expected)
+    {
+      if (!OutputFiles.Any())
+      {
+        logger.LogWarning($"Skipping test because no output files could be found. Please refer to {nameof(Run_CountOutputFiles_OutputFilesExist)}");
+        throw new SkipException();
+      }
+
+      var fileName = $"FILE_{letter.ToUpper()}.{CountWords.ExtensionDefaultValue}";
+      var filePath = Path.Combine(uut.OutputPath, fileName);
+      File.Exists(filePath).Should().Be(expected);
+    }
+
+    private string[] OutputFiles
+    {
+      get
+      {
+        if (!Directory.Exists(uut.OutputPath))
+          Directory.CreateDirectory(uut.OutputPath);
+
+        uut.Run();
+        return Directory.GetFiles(uut.OutputPath);
+      }
     }
   }
 }
