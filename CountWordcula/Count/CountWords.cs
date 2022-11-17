@@ -1,4 +1,6 @@
 ﻿using GoCommando;
+using Microsoft.Extensions.DependencyInjection;
+using Serilog;
 
 namespace CountWordcula.Count;
 
@@ -8,6 +10,18 @@ public class CountWords : ICountWords
 {
   [Parameter("input-path", "i")]
   [Description("Where are the input files?")]
+  static CountWords()
+  {
+    Provider = new ServiceCollection()
+      .AddLogging(
+        builder => builder.AddSerilog(
+          new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.Console()
+            .CreateLogger()))
+      .AddSingleton<CountWordsValidator>()
+      .BuildServiceProvider();
+  }
   public string InputPath { get; set; } = null!;
 
   [Parameter("output-path", "o")]
