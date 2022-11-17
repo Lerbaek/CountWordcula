@@ -55,7 +55,7 @@ namespace CountWordcula.Test
     [InlineData('X', false)]
     [InlineData('Y', false)]
     [InlineData('Z', false)]
-    public void Run_CountOutputFiles_ExpectedFilesExist(char letter, bool expected)
+    public void Run_CountOutputFiles_ExpectedFilesExistWithContent(char letter, bool expected)
     {
       if (!OutputFiles.Any())
       {
@@ -65,7 +65,17 @@ namespace CountWordcula.Test
 
       var fileName = $"FILE_{letter}.{CountWords.ExtensionDefaultValue}";
       var filePath = Path.Combine(uut.OutputPath, fileName);
-      File.Exists(filePath).Should().Be(expected);
+      var fileExists = File.Exists(filePath);
+
+      using (new AssertionScope())
+      {
+        fileExists.Should().Be(expected);
+        if (fileExists)
+          File.ReadAllText(filePath)
+            .Trim()
+            .Should()
+            .NotBeEmpty();
+      }
     }
 
     private string[] OutputFiles
