@@ -1,5 +1,6 @@
 ﻿using CountWordcula.Count;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Microsoft.Extensions.Logging;
 using Xunit;
 
@@ -78,10 +79,14 @@ namespace CountWordcula.Test
       }
     }
 
+    private string[]? outputFiles;
     private string[] OutputFiles
     {
       get
       {
+        if (outputFiles != null)
+          return outputFiles;
+
         if(Directory.Exists(uut.OutputPath) && uut.Force)
           Directory.Delete(uut.OutputPath, true);
 
@@ -89,7 +94,7 @@ namespace CountWordcula.Test
           Directory.CreateDirectory(uut.OutputPath);
 
         uut.Run();
-        return Directory.GetFiles(uut.OutputPath);
+        return outputFiles = Directory.GetFiles(uut.OutputPath);
       }
     }
   }
