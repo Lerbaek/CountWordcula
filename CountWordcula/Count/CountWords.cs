@@ -92,8 +92,11 @@ public class CountWords : ICountWords
 
   public void Run()
   {
+    SanitizeInput();
     ValidateInput();
   }
+
+  private void SanitizeInput() => Extension = Extension.TrimStart('.');
 
   private void ValidateInput()
   {
