@@ -47,6 +47,9 @@ namespace CountWordcula.Test
     {
       get
       {
+        if(Directory.Exists(uut.OutputPath) && uut.Force)
+          Directory.Delete(uut.OutputPath, true);
+
         if (!Directory.Exists(uut.OutputPath))
           Directory.CreateDirectory(uut.OutputPath);
 
