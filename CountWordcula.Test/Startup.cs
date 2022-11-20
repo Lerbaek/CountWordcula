@@ -1,4 +1,5 @@
-﻿using CountWordcula.Count;
+﻿using CountWordcula.Backend.FileReader;
+using CountWordcula.Count;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit.DependencyInjection;
@@ -12,7 +13,10 @@ public class Startup
   {
     services
       .AddSkippableFactSupport()
-      .AddTransient<ICountWords, CountWords>();
+      .AddTransient<ICountWords, CountWords>()
+      .AddSingleton<FluentFileReader>()
+      .AddSingleton<MemoryEfficientFileReader>()
+      .AddSingleton<MemoryEfficientParallelFileReader>();
   }
 
   public void Configure(ILoggerFactory loggerFactory, ITestOutputHelperAccessor accessor) =>

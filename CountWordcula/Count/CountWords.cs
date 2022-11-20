@@ -96,7 +96,7 @@ public class CountWords : ICountWords
     ValidateInput();
 
     var inputFileNames = Directory.GetFiles(InputPath);
-    var wordCountTasks = new List<Task<IDictionary<string, long>>>();
+    var wordCountTasks = new List<Task<IDictionary<char, long>>>();
     foreach (var fileName in inputFileNames)
     {
       var fileReader = Provider.GetRequiredService<IFileReader>();
@@ -120,9 +120,7 @@ public class CountWords : ICountWords
 
     foreach (var key in wordCount.Keys)
     {
-      if (string.IsNullOrWhiteSpace(key)) continue; // Happens with double spaces and line breaks
-      var firstLetter = key[0];
-      using var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{firstLetter}.{Extension}"), FileMode.Create);
+      using var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{key}.{Extension}"), FileMode.Create);
       using var streamWriter = new StreamWriter(fileStream);
       streamWriter.WriteLineAsync($"{key} {wordCount[key]}").Wait(); // Todo: Make real async when this is moved to separate, async method
     }
