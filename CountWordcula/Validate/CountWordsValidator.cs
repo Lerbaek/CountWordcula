@@ -1,4 +1,4 @@
-﻿using CountWordcula.Count;
+﻿using CountWordcula.Command;
 using FluentValidation;
 using Microsoft.Extensions.Logging;
 

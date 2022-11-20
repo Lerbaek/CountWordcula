@@ -5,11 +5,11 @@ using GoCommando;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace CountWordcula.Count;
+namespace CountWordcula.Command;
 
 [Command("count-words")]
 [Description("Read data from multiple files in a given directory.")]
-public class CountWords : ICountWords
+public class CountWords : ICommand
 {
   #region Names
 
@@ -118,6 +118,7 @@ public class CountWords : ICountWords
 
     foreach (var result in wordCounts.Skip(1))
     {
+      wordCount.Excluded += result.Excluded;
       foreach (var key in result.Keys)
       {
         if (wordCount.ContainsKey(key))

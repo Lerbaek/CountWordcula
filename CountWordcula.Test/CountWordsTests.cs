@@ -1,4 +1,4 @@
-﻿using CountWordcula.Count;
+﻿using CountWordcula.Command;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.Logging;
@@ -8,10 +8,10 @@ namespace CountWordcula.Test
 {
   public class CountWordsTests
   {
-    private readonly ICountWords uut;
+    private readonly CountWords uut;
     private readonly ILogger<CountWordsTests> logger;
 
-    public CountWordsTests(ICountWords uut, ILogger<CountWordsTests> logger)
+    public CountWordsTests(CountWords uut, ILogger<CountWordsTests> logger)
     {
       this.uut = uut;
       this.logger = logger;
