@@ -118,21 +118,14 @@ public class CountWords : ICountWords
       }
     }
 
-    var streamWriters = new Dictionary<char, StreamWriter>();
     foreach (var key in wordCount.Keys)
     {
       if (string.IsNullOrWhiteSpace(key)) continue; // Happens with double spaces and line breaks
       var firstLetter = key[0];
-      if (!streamWriters.TryGetValue(firstLetter, out var streamWriter))
-      {
-        var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{firstLetter}.{Extension}"), FileMode.Create);
-        streamWriter = new StreamWriter(fileStream);
-        streamWriters.Add(firstLetter, streamWriter);
-      }
+      using var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{firstLetter}.{Extension}"), FileMode.Create);
+      using var streamWriter = new StreamWriter(fileStream);
       streamWriter.WriteLineAsync($"{key} {wordCount[key]}").Wait(); // Todo: Make real async when this is moved to separate, async method
     }
-
-    Parallel.ForEach(streamWriters.Values, writer => writer.Dispose());
   }
 
   private void SanitizeInput() => Extension = Extension.TrimStart('.');
