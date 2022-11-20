@@ -1,16 +1,12 @@
-﻿using System.Collections.Concurrent;
-
-namespace CountWordcula.Backend.FileReader;
+﻿namespace CountWordcula.Backend.FileReader;
 
 public class MemoryEfficientFileReader : IFileReader
 {
-  private Dictionary<char, long> wordCount = null!;
-
-  public Task<IDictionary<char, long>> GetWordCountAsync(string fileName)
+  public Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude)
   {
     using var reader = File.OpenText(fileName);
     var word = string.Empty;
-    wordCount = new Dictionary<char, long>();
+    var wordCount = new WordCount();
     while (reader.Peek() >= 0)
     {
       var character = (char)reader.Read();
@@ -18,20 +14,25 @@ public class MemoryEfficientFileReader : IFileReader
         continue;
       if (character is ' ' or '\r' or '\n' && !string.IsNullOrWhiteSpace(word))
       {
-        CountWord(word);
+        CountWord(word, wordCount, exclude);
         word = string.Empty;
       }
       else
         word += character;
     }
     if(!string.IsNullOrWhiteSpace(word))
-      CountWord(word);
+      CountWord(word, wordCount, exclude);
 
-    return Task.FromResult<IDictionary<char, long>>(wordCount);
+    return Task.FromResult(wordCount);
   }
 
-  private void CountWord(string word)
+  private void CountWord(string word, WordCount wordCount, string[] exclude)
   {
+    if (exclude.Contains(word, StringComparer.InvariantCultureIgnoreCase))
+    {
+      wordCount.Excluded++;
+      return;
+    }
     var firstLetter = char.ToUpperInvariant(word[0]);
     wordCount[firstLetter] = wordCount.ContainsKey(firstLetter)
       ? wordCount[firstLetter] + 1

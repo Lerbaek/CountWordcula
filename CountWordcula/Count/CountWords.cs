@@ -1,4 +1,5 @@
-﻿using CountWordcula.Backend.FileReader;
+﻿using CountWordcula.Backend;
+using CountWordcula.Backend.FileReader;
 using CountWordcula.Validate;
 using GoCommando;
 using Microsoft.Extensions.DependencyInjection;
@@ -95,12 +96,20 @@ public class CountWords : ICountWords
     SanitizeInput();
     ValidateInput();
 
+    var excludeFilePath = Path.Combine(InputPath, "exclude.txt");
+    var excludedWords = File.Exists(excludeFilePath)
+      ? Array.Empty<string>()
+      : File.ReadAllLines(excludeFilePath);
+    // Todo: Further validation and/or sanitation on file content.
+    // For now, assume that it is properly formatted with one
+    // word per line and no whitespace or special characters.
+
     var inputFileNames = Directory.GetFiles(InputPath);
-    var wordCountTasks = new List<Task<IDictionary<char, long>>>();
+    var wordCountTasks = new List<Task<WordCount>>();
+    var fileReader = Provider.GetRequiredService<IFileReader>();
     foreach (var fileName in inputFileNames)
     {
-      var fileReader = Provider.GetRequiredService<IFileReader>();
-      var wordCountTask = fileReader.GetWordCountAsync(fileName);
+      var wordCountTask = fileReader.GetWordCountAsync(fileName, excludedWords);
       wordCountTasks.Add(wordCountTask);
     }
 

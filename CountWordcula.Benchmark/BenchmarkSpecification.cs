@@ -1,4 +1,5 @@
 ﻿using BenchmarkDotNet.Attributes;
+using CountWordcula.Backend;
 using CountWordcula.Backend.FileReader;
 
 namespace CountWordcula.Benchmark;
@@ -33,7 +34,7 @@ public class BenchmarkSpecification
 
 
   [Benchmark]
-  public IDictionary<char, long> FluentFileReaderBenchmark() =>
+  public WordCount FluentFileReaderBenchmark() =>
     FileReader.GetWordCountAsync(FilePath)
       .Result;
 }

@@ -2,13 +2,22 @@
 
 public class FluentFileReader : IFileReader
 {
-  public async Task<IDictionary<char, long>> GetWordCountAsync(string fileName)
+  public async Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude)
   {
     var allText = await File.ReadAllTextAsync(fileName);
-    return allText.Split()
-      .Select(word => word.TrimEnd(',', '.'))
+    var excludedCount = 0;
+    var wordCountAsync = allText.Split()
+      .Select(word => word.TrimEnd(',', '.').ToUpperInvariant())
       .Where(word => !string.IsNullOrWhiteSpace(word))
-      .GroupBy(word => char.ToUpperInvariant(word[0]))
+      .Where(word =>
+      {
+        var excluded = exclude.Contains(word, StringComparer.InvariantCultureIgnoreCase);
+        if (excluded)
+          excludedCount++;
+        return !excluded;
+      })
+      .GroupBy(word => word[0])
       .ToDictionary(group => group.Key, group => group.LongCount());
+    return new WordCount(wordCountAsync, excludedCount);
   }
 }

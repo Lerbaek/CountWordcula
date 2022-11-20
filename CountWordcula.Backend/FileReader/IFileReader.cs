@@ -2,5 +2,5 @@
 
 public interface IFileReader
 {
-  Task<IDictionary<char, long>> GetWordCountAsync(string fileName);
+  Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude);
 }
