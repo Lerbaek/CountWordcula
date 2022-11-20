@@ -65,7 +65,7 @@ public class CountWords : ICountWords
             .WriteTo.Console()
             .CreateLogger()))
       .AddSingleton<CountWordsValidator>()
-      .AddSingleton<IFileReader, FluentFileReader>()
+      .AddSingleton<IFileReader, MemoryEfficientParallelFileReader>()
       .BuildServiceProvider();
   }
 
