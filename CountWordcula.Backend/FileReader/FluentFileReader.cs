@@ -6,7 +6,7 @@ public class FluentFileReader : IFileReader
   {
     var allText = await File.ReadAllTextAsync(fileName);
     var excludedCount = 0;
-    var wordCountAsync = allText.Split()
+    var wordCount = allText.Split()
       .Select(word => word.TrimEnd(',', '.').ToUpperInvariant())
       .Where(word => !string.IsNullOrWhiteSpace(word))
       .Where(word =>
@@ -16,8 +16,8 @@ public class FluentFileReader : IFileReader
           excludedCount++;
         return !excluded;
       })
-      .GroupBy(word => word[0])
+      .GroupBy(word => word.ToUpperInvariant())
       .ToDictionary(group => group.Key, group => group.LongCount());
-    return new WordCount(wordCountAsync, excludedCount);
+    return new WordCount(wordCount, excludedCount);
   }
 }

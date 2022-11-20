@@ -18,7 +18,7 @@ public class MemoryEfficientFileReader : IFileReader
         word = string.Empty;
       }
       else
-        word += character;
+        word += char.ToUpperInvariant(character);
     }
     if(!string.IsNullOrWhiteSpace(word))
       CountWord(word, wordCount, exclude);
@@ -33,9 +33,8 @@ public class MemoryEfficientFileReader : IFileReader
       wordCount.Excluded++;
       return;
     }
-    var firstLetter = char.ToUpperInvariant(word[0]);
-    wordCount[firstLetter] = wordCount.ContainsKey(firstLetter)
-      ? wordCount[firstLetter] + 1
+    wordCount[word] = wordCount.ContainsKey(word)
+      ? wordCount[word] + 1
       : 1;
   }
 }

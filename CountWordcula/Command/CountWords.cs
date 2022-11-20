@@ -1,4 +1,5 @@
-﻿using CountWordcula.Backend;
+﻿using System.Linq;
+using CountWordcula.Backend;
 using CountWordcula.Backend.FileReader;
 using CountWordcula.Validate;
 using GoCommando;
@@ -128,12 +129,15 @@ public class CountWords : ICommand
       }
     }
 
-    foreach (var key in wordCount.Keys)
-    {
-      using var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{key}.{Extension}"), FileMode.Create);
-      using var streamWriter = new StreamWriter(fileStream);
-      streamWriter.WriteLineAsync($"{key} {wordCount[key]}").Wait(); // Todo: Make real async when this is moved to separate, async method
-    }
+    Parallel.ForEach(
+      wordCount.GroupBy(wc => wc.Key[0]),
+      grouping =>
+      {
+        using var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{grouping.Key}.{Extension}"), FileMode.Create);
+        using var streamWriter = new StreamWriter(fileStream);
+        streamWriter.WriteAsync(string.Join(Environment.NewLine, grouping.Select(g => $"{g.Key} {g.Value}")))
+          .Wait(); // Todo: Make real async when this is moved to separate, async method
+      });
   }
 
   private void SanitizeInput() => Extension = Extension.TrimStart('.');

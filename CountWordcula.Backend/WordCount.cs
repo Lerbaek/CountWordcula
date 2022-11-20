@@ -1,12 +1,12 @@
 ﻿namespace CountWordcula.Backend;
 
-public class WordCount : Dictionary<char, long>
+public class WordCount : Dictionary<string, long>
 {
   public WordCount()
   {
   }
 
-  public WordCount(IDictionary<char, long> dictionary, long excluded = 0)
+  public WordCount(IDictionary<string, long> dictionary, long excluded = 0)
     : base(dictionary)
   {
     Excluded = excluded;

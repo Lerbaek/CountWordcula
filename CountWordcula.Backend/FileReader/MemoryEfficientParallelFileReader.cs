@@ -16,7 +16,7 @@ public class MemoryEfficientParallelFileReader : IFileReader
         {
           var wordCount = new WordCount();
           foreach (var word in line!.Split()
-                     .Select(w => w.TrimEnd(',', '.'))
+                     .Select(w => w.TrimEnd(',', '.').ToUpperInvariant())
                      .Where(w => !string.IsNullOrWhiteSpace(w))
                      .Where(w =>
                      {
@@ -26,9 +26,8 @@ public class MemoryEfficientParallelFileReader : IFileReader
                        return !excluded;
                      }))
           {
-            var firstLetter = char.ToUpperInvariant(word[0]);
-            wordCount[firstLetter] = wordCount.ContainsKey(firstLetter)
-              ? wordCount[firstLetter] + 1
+            wordCount[word] = wordCount.ContainsKey(word)
+              ? wordCount[word] + 1
               : 1;
           }
           return wordCount;

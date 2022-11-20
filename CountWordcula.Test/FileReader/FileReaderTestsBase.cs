@@ -12,7 +12,7 @@ public abstract class FileReaderTestsBase
   private readonly IFileReader uut;
   private readonly ITestOutputHelper output;
 
-  public FileReaderTestsBase(IFileReader uut, ITestOutputHelper output)
+  protected FileReaderTestsBase(IFileReader uut, ITestOutputHelper output)
   {
     this.uut = uut;
     this.output = output;

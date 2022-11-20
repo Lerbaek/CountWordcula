@@ -12,7 +12,7 @@ public class BenchmarkSpecification
   public Type FileReaderType { get; set; }
 
   private IFileReader FileReader =>
-    (IFileReader)FileReaderType.GetConstructor(Type.EmptyTypes)
+    (IFileReader)FileReaderType.GetConstructor(Type.EmptyTypes)!
       .Invoke(Type.EmptyTypes);
 
   private string FilePath =>
