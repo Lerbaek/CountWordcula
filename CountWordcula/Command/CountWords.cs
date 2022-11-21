@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using CountWordcula.Backend;
+﻿using CountWordcula.Backend;
 using CountWordcula.Backend.FileReader;
 using CountWordcula.Validate;
 using GoCommando;
@@ -99,8 +98,8 @@ public class CountWords : ICommand
 
     var excludeFilePath = Path.Combine(InputPath, "exclude.txt");
     var excludedWords = File.Exists(excludeFilePath)
-      ? Array.Empty<string>()
-      : File.ReadAllLines(excludeFilePath);
+      ? File.ReadAllLines(excludeFilePath)
+      : Array.Empty<string>();
     // Todo: Further validation and/or sanitation on file content.
     // For now, assume that it is properly formatted with one
     // word per line and no whitespace or special characters.
@@ -129,15 +128,18 @@ public class CountWords : ICommand
       }
     }
 
+    Task.Run(() => WriteFile("EXCLUDED", new KeyValuePair<string, long>("Excluded words encountered:", wordCount.Excluded)));
     Parallel.ForEach(
-      wordCount.GroupBy(wc => wc.Key[0]),
-      grouping =>
-      {
-        using var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{grouping.Key}.{Extension}"), FileMode.Create);
-        using var streamWriter = new StreamWriter(fileStream);
-        streamWriter.WriteAsync(string.Join(Environment.NewLine, grouping.Select(g => $"{g.Key} {g.Value}")))
-          .Wait(); // Todo: Make real async when this is moved to separate, async method
-      });
+      wordCount.GroupBy(wc => wc.Key[0]), // Add excluded here
+      grouping => WriteFile($"{grouping.Key}", grouping.ToArray()));
+  }
+
+  private void WriteFile(string key, params KeyValuePair<string, long>[] values)
+  {
+    using var fileStream = File.Open(Path.Combine(OutputPath, $"FILE_{key}.{Extension}"), FileMode.Create);
+    using var streamWriter = new StreamWriter(fileStream);
+    streamWriter.WriteAsync(string.Join(Environment.NewLine, values.Select(g => $"{g.Key} {g.Value}")))
+      .Wait(); // Todo: Make real async when this is moved to separate, async method
   }
 
   private void SanitizeInput() => Extension = Extension.TrimStart('.');
