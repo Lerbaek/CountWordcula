@@ -22,9 +22,9 @@ namespace CountWordcula.Test
     }
 
     [Fact]
-    public void Run_CountOutputFiles_OutputFilesExist()
+    public async Task Run_CountOutputFiles_OutputFilesExist()
     {
-      OutputFiles
+      (await GetOutputFiles())
         .Should()
         .NotBeEmpty($"{nameof(uut.Run)}() method should have produced output files to {uut.OutputPath}");
     }
@@ -57,15 +57,15 @@ namespace CountWordcula.Test
     [InlineData("Y", false)]
     [InlineData("Z", false)]
     [InlineData("EXCLUDED", true)]
-    public void Run_CountOutputFiles_ExpectedFilesExistWithContent(string letter, bool expected)
+    public async Task Run_CountOutputFiles_ExpectedFilesExistWithContent(string letter, bool expected)
     {
-      if (!OutputFiles.Any())
+      if (!(await GetOutputFiles()).Any())
       {
         logger.LogWarning($"Skipping test because no output files could be found. Please refer to {nameof(Run_CountOutputFiles_OutputFilesExist)}");
         throw new SkipException();
       }
 
-      var fileName = $"FILE_{letter}.{CountWords.ExtensionDefaultValue}";
+      var fileName = $"FILE_{letter}.txt";
       var filePath = Path.Combine(uut.OutputPath, fileName);
       var fileExists = File.Exists(filePath);
 
@@ -73,18 +73,70 @@ namespace CountWordcula.Test
       {
         fileExists.Should().Be(expected);
         if (fileExists)
-          File.ReadAllText(filePath)
+          (await File.ReadAllTextAsync(filePath))
             .Trim()
             .Should()
             .NotBeEmpty();
       }
     }
 
-    private string[]? outputFiles;
-    private string[] OutputFiles
+    [Fact]
+    public async Task Run_CountWords_WordCountMatchesActualCount()
     {
-      get
+      var inputFiles =
+        Directory.GetFiles(uut.InputPath)
+          .Where(filePath => Path.GetFileName(filePath).StartsWith("Sample"));
+
+      var allInputText = await Task.WhenAll(inputFiles.Select(async filePath => await File.ReadAllTextAsync(filePath)));
+      var allInputWords = string.Join(" ", allInputText);
+
+      var sanitizedInputWords = allInputWords
+        .Split()
+        .Where(word => !string.IsNullOrWhiteSpace(word))
+        .Select(word => word
+          .TrimEnd('.', ',')
+          .ToUpperInvariant())
+        .ToArray();
+
+      var excludeFilePath = Path.Combine(uut.InputPath, "exclude.txt");
+      var excludedWords = await File.ReadAllLinesAsync(excludeFilePath);
+
+      var inputWordCount = sanitizedInputWords
+        .GroupBy(word => word, words => words.Length)
+        .Where(group => !excludedWords.Contains(group.Key))
+        .ToDictionary(
+          group => group.Key,
+          group => group.LongCount());
+
+      var outputFilePaths = await GetOutputFiles();
+
+      var outputWordCount = outputFilePaths
+        .Where(filePath => !IsExcludeFile(filePath))
+        .SelectMany(filePath => File
+          .ReadAllLines(filePath)
+          .Select(line => line.Split()))
+        .ToDictionary(line => line[0], line => long.Parse(line[1]));
+
+      var inputExcludedWordsCount = sanitizedInputWords.LongCount(word => excludedWords.Contains(word));
+      var outputExcludedWordsFilePath = outputFilePaths.Single(IsExcludeFile);
+      var outputExcludeFileText = await File.ReadAllTextAsync(outputExcludedWordsFilePath);
+      var outputExcludedWordsCount = long.Parse(outputExcludeFileText.Split().Last());
+
+      using (new AssertionScope())
       {
+        inputWordCount.Should()
+          .BeEquivalentTo(outputWordCount);
+
+        inputExcludedWordsCount.Should().Be(outputExcludedWordsCount);
+      }
+    }
+
+    private static bool IsExcludeFile(string filePath) =>
+      Path.GetFileName(filePath).StartsWith("FILE_EXCLUDE");
+
+    private string[]? outputFiles;
+    private async Task<string[]> GetOutputFiles()
+    {
         if (outputFiles != null)
           return outputFiles;
 
@@ -94,9 +146,8 @@ namespace CountWordcula.Test
         if (!Directory.Exists(uut.OutputPath))
           Directory.CreateDirectory(uut.OutputPath);
 
-        uut.Run();
+        await uut.RunAsync();
         return outputFiles = Directory.GetFiles(uut.OutputPath);
-      }
     }
   }
 }

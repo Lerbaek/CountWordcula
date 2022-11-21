@@ -13,4 +13,26 @@ public class WordCount : Dictionary<string, long>
   }
 
   public long Excluded { get; set; }
+
+  public static WordCount Combine(params WordCount[] wordCounts)
+  {
+    if (!wordCounts.Any())
+      return new WordCount();
+
+    var wordCount = wordCounts.First();
+
+    foreach (var result in wordCounts.Skip(1))
+    {
+      wordCount.Excluded += result.Excluded;
+      foreach (var key in result.Keys)
+      {
+        if (wordCount.ContainsKey(key))
+          wordCount[key] += result[key];
+        else
+          wordCount.Add(key, result[key]);
+      }
+    }
+
+    return wordCount;
+  }
 }

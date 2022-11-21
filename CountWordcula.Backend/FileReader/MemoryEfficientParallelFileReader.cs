@@ -36,23 +36,6 @@ public class MemoryEfficientParallelFileReader : IFileReader
 
     var wordCounts = await Task.WhenAll(tasks);
 
-    //var wordCount = wordCounts.SelectMany(wc => wc.Select(kvp => kvp))
-    //  .GroupBy(kvp => kvp.Key, kvp => kvp.Value)
-    //  .ToDictionary(
-    //    g => g.Key,
-    //    g => g.Sum());
-    //return new WordCount(wordCount, wordCounts.Sum(wc => wc.Excluded));
-
-    var wordCount = wordCounts[0];
-    foreach (var wc in wordCounts.Skip(1))
-    {
-      wordCount.Excluded += wc.Excluded;
-      foreach (var kvp in wc)
-        wordCount[kvp.Key] = wordCount.ContainsKey(kvp.Key)
-          ? wordCount[kvp.Key] + kvp.Value
-          : kvp.Value;
-    }
-
-    return wordCount;
+    return WordCount.Combine(wordCounts);
   }
 }
