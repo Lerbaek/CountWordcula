@@ -3,6 +3,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.Logging;
 using Xunit;
+using static CountWordcula.Backend.Register.ConfiguratonRegister;
 
 namespace CountWordcula.Test
 {
@@ -98,7 +99,7 @@ namespace CountWordcula.Test
           .ToUpperInvariant())
         .ToArray();
 
-      var excludeFilePath = Path.Combine(uut.InputPath, "exclude.txt");
+      var excludeFilePath = Path.Combine(uut.InputPath, ExcludeFileName);
       var excludedWords = await File.ReadAllLinesAsync(excludeFilePath);
 
       var inputWordCount = sanitizedInputWords

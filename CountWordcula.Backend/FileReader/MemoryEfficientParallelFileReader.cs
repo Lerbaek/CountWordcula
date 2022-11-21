@@ -1,6 +1,4 @@
-﻿using System.Collections.Concurrent;
-
-namespace CountWordcula.Backend.FileReader;
+﻿namespace CountWordcula.Backend.FileReader;
 
 public class MemoryEfficientParallelFileReader : IFileReader
 {

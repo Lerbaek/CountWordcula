@@ -9,8 +9,8 @@ using static CountWordcula.Command.CountWordsParameterValues;
 
 namespace CountWordcula.Command;
 
-[Command("count-words")]
-[Description("Read data from multiple files in a given directory.")]
+[Command(CountWordsCommandName)]
+[Description(CountWordsDescription)]
 public class CountWords : ICommand
 {
   private readonly IServiceProvider provider;
@@ -28,6 +28,7 @@ public class CountWords : ICommand
       .AddSingleton<ExcludeFileValidator>()
       .AddSingleton<IFileReader, MemoryEfficientParallelFileReader>()
       .AddSingleton<IFileWriter, FileWriter>()
+      .AddSingleton<IWordCountManager, WordCountManager>()
       .BuildServiceProvider();
   }
 
@@ -43,10 +44,6 @@ public class CountWords : ICommand
   [Description(ExtensionDescription)]
   public string Extension { get; set; } = ExtensionDefaultValue;
 
-  [Parameter(SegregateName, SegregateShortName, SegregateOptional)]
-  [Description(SegregateDescription)]
-  public bool Segregate { get; set; }
-
   [Parameter(ForceName, ForceShortName, ForceOptional)]
   [Description(ForceDescription)]
   public bool Force { get; set; }
@@ -56,41 +53,31 @@ public class CountWords : ICommand
   public async Task RunAsync()
   {
     SanitizeInput();
-    ValidateInput();
-    var wordCount = WordCount.Combine(await GetWordCountsAsync());
-    await provider.GetRequiredService<IFileWriter>().WriteOutputFilesAsync(OutputPath, wordCount);
-  }
-
-  private async Task<WordCount[]> GetWordCountsAsync()
-  {
-    var fileReader = provider.GetRequiredService<IFileReader>();
-    var inputFileNames = Directory.GetFiles(InputPath).Where(fileName => !fileName.EndsWith("exclude.txt"));
-    var excludedWords = await GetExcludedWordsAsync();
-    var wordCountTasks = inputFileNames.Select(fileName => fileReader.GetWordCountAsync(fileName, excludedWords));
-    return await Task.WhenAll(wordCountTasks);
-  }
-
-  private async Task<string[]> GetExcludedWordsAsync()
-  {
-    var excludeFilePath = Path.Combine(InputPath, "exclude.txt");
-    var excludedWords = File.Exists(excludeFilePath)
-      ? await File.ReadAllLinesAsync(excludeFilePath)
-      : Array.Empty<string>();
-    var validationResult = await provider.GetRequiredService<ExcludeFileValidator>().ValidateAsync(excludedWords);
-    if (!validationResult.IsValid)
-      Environment.Exit(11);
-    return excludedWords;
+    await ValidateInput();
+    var wordCountManager = provider.GetRequiredService<IWordCountManager>();
+    var excludedWords = await wordCountManager.GetExcludedWordsAsync(InputPath);
+    await ValidateExcludedWords(excludedWords);
+    await wordCountManager.ExecuteAsync(InputPath, OutputPath, excludedWords);
   }
 
   private void SanitizeInput() => Extension = Extension.TrimStart('.');
 
-  private void ValidateInput()
+  private async Task ValidateInput()
   {
-    var validation = provider
-      .GetRequiredService<CountWordsValidator>()
-      .Validate(this);
+    var validator = provider
+      .GetRequiredService<CountWordsValidator>();
+    var validation = await validator
+      .ValidateAsync(this);
 
     if (!validation.IsValid)
+      Environment.Exit(11);
+  }
+
+  private async Task ValidateExcludedWords(string[] words)
+  {
+    var validator = provider.GetRequiredService<ExcludeFileValidator>();
+    var validationResult = await validator.ValidateAsync(words);
+    if (!validationResult.IsValid)
       Environment.Exit(11);
   }
 }
