@@ -5,7 +5,6 @@ using CountWordcula.Backend.Validate;
 using CountWordcula.Command;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Serilog;
 using Xunit.DependencyInjection;
 using Xunit.DependencyInjection.Logging;
 

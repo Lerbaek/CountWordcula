@@ -1,5 +1,4 @@
-﻿using CountWordcula.Command;
-using CountWordcula.Configure;
+﻿using CountWordcula.Configure;
 using GoCommando;
 
 namespace CountWordcula
