@@ -2,6 +2,7 @@
 
 namespace CountWordcula.Backend.FileWrite;
 
+/// <inheritdoc />
 public class FileWriter : IFileWriter
 {
   public async Task WriteOutputFilesAsync(string outputPath, WordCount wordCount)

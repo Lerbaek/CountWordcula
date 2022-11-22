@@ -7,6 +7,7 @@ using static CountWordcula.Backend.Registry.ConfigurationRegistry;
 
 namespace CountWordcula.Backend;
 
+/// <inheritdoc cref="IWordCountManager"/>
 public class WordCountManager : IWordCountManager
 {
   private readonly IFileReader fileReader;
@@ -15,6 +16,7 @@ public class WordCountManager : IWordCountManager
   private readonly ExcludeFileValidator excludeFileValidator;
   private readonly ILogger<WordCountManager> logger;
 
+  /// <inheritdoc cref="WordCountManager"/>
   public WordCountManager(
     IFileReader fileReader,
     IFileWriter fileWriter,
