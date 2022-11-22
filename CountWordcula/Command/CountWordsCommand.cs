@@ -4,12 +4,16 @@ using static CountWordcula.Command.CountWordsParameterValues;
 
 namespace CountWordcula.Command;
 
+/// <summary>
+/// Console command for the <see cref="CountWordcula"/> application.
+/// </summary>
 [Command(CountWordsCommandName)]
 [Description(CountWordsDescription)]
 public class CountWordsCommand : ICommand
 {
   private readonly IWordCountManager wordCountManager;
 
+  /// <inheritdoc cref="CountWordsCommand"/>
   public CountWordsCommand(IWordCountManager wordCountManager) => this.wordCountManager = wordCountManager;
 
   [Parameter(InputPathName, InputPathShortName)]

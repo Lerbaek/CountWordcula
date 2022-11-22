@@ -1,4 +1,5 @@
 ﻿using CountWordcula.Backend;
+using CountWordcula.Backend.Registry;
 using CountWordcula.Backend.Validate;
 using FluentAssertions;
 using FluentAssertions.Execution;
@@ -9,8 +10,16 @@ namespace CountWordcula.Test.Validate;
 public class WordCountConfigurationValidatorTests
 {
   private readonly WordCountConfigurationValidator uut;
+  private readonly WordCountConfiguration validWordCountConfiguration;
 
-  public WordCountConfigurationValidatorTests(WordCountConfigurationValidator uut) => this.uut = uut;
+  public WordCountConfigurationValidatorTests(WordCountConfigurationValidator uut)
+  {
+    this.uut = uut;
+    validWordCountConfiguration = new WordCountConfiguration(
+      "RelativePath",
+      ".a",
+      ".");
+  }
 
   [Theory]
   [InlineData(null)]
@@ -26,21 +35,28 @@ public class WordCountConfigurationValidatorTests
       invalidExtension,
       new string(Path.GetInvalidPathChars()));
     var validation = await uut.ValidateAsync(configuration);
-    using (new AssertionScope())
-    {
-      validation.IsValid.Should().BeFalse("all values are invalid");
-      validation.Errors.Should().HaveCount(3);
-    }
+
+    validation.IsValid.Should().BeFalse("all values are invalid");
+    validation.Errors.Should().HaveCount(3);
+  }
+
+  [Fact]
+  public async Task Validate_FileExists_ValidationFails()
+  {
+    var existingFilePath = Path.Combine(
+      validWordCountConfiguration.OutputPath!,
+      ConfigurationRegistry.OutputFileName('A'));
+    await File.Create(existingFilePath).DisposeAsync();
+    var validation = await uut.ValidateAsync(validWordCountConfiguration);
+    validation.IsValid.Should()
+      .BeFalse("{Force} is false and an output file already exists", nameof(validWordCountConfiguration.Force));
+    File.Delete(existingFilePath);
   }
 
   [Fact]
   public async Task Validate_AllValuesAreValid_ValidationSucceeds()
   {
-    var configuration = new WordCountConfiguration(
-      "RelativePath",
-      ".a",
-      "AnotherPath");
-    var validation = await uut.ValidateAsync(configuration);
+    var validation = await uut.ValidateAsync(validWordCountConfiguration);
     validation.IsValid.Should().BeTrue("all values are valid");
   }
 }

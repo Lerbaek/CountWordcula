@@ -6,6 +6,9 @@ public class FileWriter : IFileWriter
 {
   public async Task WriteOutputFilesAsync(string outputPath, WordCount wordCount)
   {
+    if (Directory.Exists(outputPath))
+      Directory.CreateDirectory(outputPath);
+
     var tasks = wordCount
       .GroupBy(wc => wc.Key[0])
       .Select(group => WriteFileAsync(
