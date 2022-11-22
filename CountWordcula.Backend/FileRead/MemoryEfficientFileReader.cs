@@ -1,4 +1,4 @@
-﻿namespace CountWordcula.Backend.FileReader;
+﻿namespace CountWordcula.Backend.FileRead;
 
 public class MemoryEfficientFileReader : IFileReader
 {

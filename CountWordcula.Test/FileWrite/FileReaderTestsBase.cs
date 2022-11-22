@@ -1,14 +1,13 @@
 ﻿using CountWordcula.Backend;
-using CountWordcula.Backend.FileWriter;
+using CountWordcula.Backend.FileWrite;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
-using Xunit.Abstractions;
-using static CountWordcula.Backend.Register.ConfigurationRegister;
+using static CountWordcula.Backend.Registry.ConfigurationRegistry;
 
-namespace CountWordcula.Test.FileWriter;
+namespace CountWordcula.Test.FileWrite;
 
-[Collection(nameof(Backend.FileWriter.FileWriter))]
+[Collection(nameof(FileWriter))]
 public class FileWriterTests
 {
   private readonly IFileWriter uut;

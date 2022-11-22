@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using CountWordcula.Backend;
-using CountWordcula.Backend.FileReader;
-using static CountWordcula.Backend.Register.ConfigurationRegister;
+using CountWordcula.Backend.FileRead;
+using static CountWordcula.Backend.Registry.ConfigurationRegistry;
 
 namespace CountWordcula.Benchmark;
 
@@ -9,8 +9,8 @@ namespace CountWordcula.Benchmark;
 public class BenchmarkSpecification
 
 {
-  [Params(typeof(FluentFileReader), typeof(MemoryEfficientFileReader), typeof(MemoryEfficientParallelFileReader))]
-  public Type FileReaderType { get; set; }
+  [Params(typeof(FluentFileReader), typeof(MemoryEfficientFileReader), typeof(ConcurrentLinesFileReader))]
+  public Type FileReaderType { get; set; } = null!;
 
   private IFileReader FileReader =>
     (IFileReader)FileReaderType.GetConstructor(Type.EmptyTypes)!
@@ -23,19 +23,18 @@ public class BenchmarkSpecification
       $"Sample_{WordCount}.txt");
 
   [Params(
-    //200
-    //,
-    //2000
-    //,
-    //5000
-    //,
+    200
+    ,
+    2000
+    ,
+    5000
+    ,
     10000
     )]
   public int WordCount { get; set; }
 
 
   [Benchmark]
-  public WordCount FluentFileReaderBenchmark() =>
-    FileReader.GetWordCountAsync(FilePath)
-      .Result;
+  public async Task<WordCount> FileReaderBenchmark() =>
+    await FileReader.GetWordCountAsync(FilePath);
 }

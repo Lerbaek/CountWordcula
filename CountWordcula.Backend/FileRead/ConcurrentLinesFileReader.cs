@@ -1,6 +1,6 @@
-﻿namespace CountWordcula.Backend.FileReader;
+﻿namespace CountWordcula.Backend.FileRead;
 
-public class MemoryEfficientParallelFileReader : IFileReader
+public class ConcurrentLinesFileReader : IFileReader
 {
   public async Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude)
   {
@@ -15,9 +15,10 @@ public class MemoryEfficientParallelFileReader : IFileReader
           var wordCount = new WordCount();
           foreach (var word in line!.Split()
                      .Select(w => w.TrimEnd(',', '.').ToUpperInvariant())
-                     .Where(w => !string.IsNullOrWhiteSpace(w))
                      .Where(w =>
                      {
+                       if (string.IsNullOrWhiteSpace(w))
+                         return false;
                        var excluded = exclude.Contains(w, StringComparer.InvariantCultureIgnoreCase);
                        if (excluded)
                          wordCount.Excluded++;

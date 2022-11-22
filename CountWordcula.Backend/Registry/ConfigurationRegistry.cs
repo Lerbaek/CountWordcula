@@ -1,6 +1,6 @@
-﻿namespace CountWordcula.Backend.Register;
+﻿namespace CountWordcula.Backend.Registry;
 
-public class ConfigurationRegister
+public class ConfigurationRegistry
 {
   public const string InputExcludeFileName = "exclude.txt";
   public const string SampleInputDirectoryName = "Samples";

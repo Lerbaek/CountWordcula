@@ -3,11 +3,11 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.Logging;
 using Xunit;
-using static CountWordcula.Backend.Register.ConfigurationRegister;
+using static CountWordcula.Backend.Registry.ConfigurationRegistry;
 
 namespace CountWordcula.Test
 {
-  [Collection(nameof(Backend.FileWriter.FileWriter))]
+  [Collection(nameof(Backend.FileWrite.FileWriter))]
   public class WordCountManagerTests
   {
     private readonly IWordCountManager uut;

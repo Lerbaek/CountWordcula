@@ -1,6 +1,6 @@
 ﻿using CountWordcula.Backend;
-using CountWordcula.Backend.FileReader;
-using CountWordcula.Backend.FileWriter;
+using CountWordcula.Backend.FileRead;
+using CountWordcula.Backend.FileWrite;
 using CountWordcula.Backend.Validate;
 using CountWordcula.Command;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,14 +14,14 @@ public class Startup
   {
     services
       .AddSkippableFactSupport()
-      .AddSingleton<IFileReader, MemoryEfficientParallelFileReader>()
-      .AddSingleton<IFileWriter, Backend.FileWriter.FileWriter>()
+      .AddSingleton<IFileReader, ConcurrentLinesFileReader>()
+      .AddSingleton<IFileWriter, FileWriter>()
       .AddSingleton<IWordCountManager, WordCountManager>()
       .AddSingleton<CountWordsCommand>()
       .AddSingleton<WordCountConfigurationValidator>()
       .AddSingleton<ExcludeFileValidator>()
       .AddSingleton<FluentFileReader>()
       .AddSingleton<MemoryEfficientFileReader>()
-      .AddSingleton<MemoryEfficientParallelFileReader>();
+      .AddSingleton<ConcurrentLinesFileReader>();
   }
 }

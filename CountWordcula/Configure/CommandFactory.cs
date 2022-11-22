@@ -1,12 +1,13 @@
 ﻿using CountWordcula.Backend;
-using CountWordcula.Backend.FileReader;
-using CountWordcula.Backend.FileWriter;
+using CountWordcula.Backend.FileRead;
+using CountWordcula.Backend.FileWrite;
 using CountWordcula.Backend.Validate;
+using CountWordcula.Command;
 using GoCommando;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 
-namespace CountWordcula.Command;
+namespace CountWordcula.Configure;
 
 public class CommandFactory : ICommandFactory
 {
@@ -24,7 +25,7 @@ public class CommandFactory : ICommandFactory
       .AddSingleton<CountWordsCommand>()
       .AddSingleton<WordCountConfigurationValidator>()
       .AddSingleton<ExcludeFileValidator>()
-      .AddSingleton<IFileReader, MemoryEfficientParallelFileReader>()
+      .AddSingleton<IFileReader, ConcurrentLinesFileReader>()
       .AddSingleton<IFileWriter, FileWriter>()
       .AddSingleton<IWordCountManager, WordCountManager>()
       .BuildServiceProvider();

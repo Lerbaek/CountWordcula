@@ -1,7 +1,7 @@
-﻿using CountWordcula.Backend.FileReader;
+﻿using CountWordcula.Backend.FileRead;
 using Xunit.Abstractions;
 
-namespace CountWordcula.Test.FileReader;
+namespace CountWordcula.Test.FileRead;
 
 public class MemoryEfficientFileReaderTests : FileReaderTestsBase
 {

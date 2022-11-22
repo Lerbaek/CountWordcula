@@ -1,11 +1,11 @@
-﻿using CountWordcula.Backend.FileReader;
+﻿using CountWordcula.Backend.FileRead;
 using CountWordcula.Test.TestData;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace CountWordcula.Test.FileReader;
+namespace CountWordcula.Test.FileRead;
 
 public abstract class FileReaderTestsBase
 {

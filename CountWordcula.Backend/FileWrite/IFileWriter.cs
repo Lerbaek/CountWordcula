@@ -1,4 +1,4 @@
-﻿namespace CountWordcula.Backend.FileWriter;
+﻿namespace CountWordcula.Backend.FileWrite;
 
 public interface IFileWriter
 {

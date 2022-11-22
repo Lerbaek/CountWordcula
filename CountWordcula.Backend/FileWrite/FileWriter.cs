@@ -1,6 +1,6 @@
-﻿using static CountWordcula.Backend.Register.ConfigurationRegister;
+﻿using static CountWordcula.Backend.Registry.ConfigurationRegistry;
 
-namespace CountWordcula.Backend.FileWriter;
+namespace CountWordcula.Backend.FileWrite;
 
 public class FileWriter : IFileWriter
 {

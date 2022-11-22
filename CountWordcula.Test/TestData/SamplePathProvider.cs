@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using static CountWordcula.Backend.Register.ConfigurationRegister;
+using static CountWordcula.Backend.Registry.ConfigurationRegistry;
 
 namespace CountWordcula.Test.TestData;
 
