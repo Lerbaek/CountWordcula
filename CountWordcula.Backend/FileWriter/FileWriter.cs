@@ -1,4 +1,4 @@
-﻿using static CountWordcula.Backend.Register.ConfiguratonRegister;
+﻿using static CountWordcula.Backend.Register.ConfigurationRegister;
 
 namespace CountWordcula.Backend.FileWriter;
 
@@ -10,7 +10,7 @@ public class FileWriter : IFileWriter
       .GroupBy(wc => wc.Key[0])
       .Select(group => WriteFileAsync(
         outputPath,
-        $"FILE_{group.Key}.txt",
+        OutputFileName(group.Key),
         group.ToArray())).ToList();
 
     tasks.Add(WriteFileAsync(

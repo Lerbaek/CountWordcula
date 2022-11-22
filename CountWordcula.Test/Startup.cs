@@ -15,7 +15,7 @@ public class Startup
     services
       .AddSkippableFactSupport()
       .AddSingleton<IFileReader, MemoryEfficientParallelFileReader>()
-      .AddSingleton<IFileWriter, FileWriter>()
+      .AddSingleton<IFileWriter, Backend.FileWriter.FileWriter>()
       .AddSingleton<IWordCountManager, WordCountManager>()
       .AddSingleton<CountWordsCommand>()
       .AddSingleton<WordCountConfigurationValidator>()

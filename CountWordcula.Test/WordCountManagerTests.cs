@@ -3,10 +3,11 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.Extensions.Logging;
 using Xunit;
-using static CountWordcula.Backend.Register.ConfiguratonRegister;
+using static CountWordcula.Backend.Register.ConfigurationRegister;
 
 namespace CountWordcula.Test
 {
+  [Collection(nameof(Backend.FileWriter.FileWriter))]
   public class WordCountManagerTests
   {
     private readonly IWordCountManager uut;
@@ -73,7 +74,7 @@ namespace CountWordcula.Test
         throw new SkipException();
       }
 
-      var fileName = $"FILE_{letter}.txt";
+      var fileName = OutputFileName(letter);
       var filePath = Path.Combine(configuration.OutputPath, fileName);
       var fileExists = File.Exists(filePath);
 

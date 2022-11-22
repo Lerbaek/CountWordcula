@@ -1,7 +1,7 @@
 ﻿using CountWordcula.Backend.FileReader;
 using CountWordcula.Backend.FileWriter;
 using CountWordcula.Backend.Validate;
-using static CountWordcula.Backend.Register.ConfiguratonRegister;
+using static CountWordcula.Backend.Register.ConfigurationRegister;
 
 namespace CountWordcula.Backend;
 

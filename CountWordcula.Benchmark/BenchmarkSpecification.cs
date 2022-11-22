@@ -1,7 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using CountWordcula.Backend;
 using CountWordcula.Backend.FileReader;
-using static CountWordcula.Backend.Register.ConfiguratonRegister;
+using static CountWordcula.Backend.Register.ConfigurationRegister;
 
 namespace CountWordcula.Benchmark;
 
