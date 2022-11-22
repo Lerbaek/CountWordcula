@@ -41,26 +41,14 @@ public class WordCountManager : IWordCountManager
     return true;
   }
 
-  private async Task<bool> Validate(WordCountConfiguration configuration, string[] excludedWords)
-  {
-    if (!await ValidateInput(configuration))
-      return false;
-    if (!await ValidateExcludedWords(excludedWords))
-      return false;
-    return true;
-  }
+  private async Task<bool> Validate(WordCountConfiguration configuration, string[] excludedWords) =>
+    await ValidateInput(configuration) && await ValidateExcludedWords(excludedWords);
 
-  private async Task<bool> ValidateInput(WordCountConfiguration configuration)
-  {
-    var validationResult = await wordCountConfigurationValidator.ValidateAsync(configuration);
-    return validationResult.IsValid;
-  }
+  private async Task<bool> ValidateInput(WordCountConfiguration configuration) =>
+    (await wordCountConfigurationValidator.ValidateAsync(configuration)).IsValid;
 
-  private async Task<bool> ValidateExcludedWords(string[] words)
-  {
-    var validationResult = await excludeFileValidator.ValidateAsync(words);
-    return validationResult.IsValid;
-  }
+  private async Task<bool> ValidateExcludedWords(string[] words) =>
+    (await excludeFileValidator.ValidateAsync(words)).IsValid;
 
   private async Task ExecuteAsync(
     WordCountConfiguration configuration,
