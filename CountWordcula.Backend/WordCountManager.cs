@@ -56,7 +56,7 @@ public class WordCountManager : IWordCountManager
   {
     var inputFileNames = Directory
       .GetFiles(configuration.InputPath)
-      .Where(fileName => fileName.EndsWith(configuration.InputExtension) && !fileName.EndsWith(ExcludeFileName));
+      .Where(fileName => fileName.EndsWith(configuration.InputExtension) && !fileName.EndsWith(InputExcludeFileName));
 
     excludedWords ??= await GetExcludedWordsAsync(configuration.InputPath);
     var wordCountTasks = inputFileNames.Select(fileName => fileReader.GetWordCountAsync(fileName, excludedWords));
@@ -68,7 +68,7 @@ public class WordCountManager : IWordCountManager
 
   private static async Task<string[]> GetExcludedWordsAsync(string inputPath)
   {
-    var excludeFilePath = Path.Combine(inputPath, ExcludeFileName);
+    var excludeFilePath = Path.Combine(inputPath, InputExcludeFileName);
 
     return File.Exists(excludeFilePath)
       ? await File.ReadAllLinesAsync(excludeFilePath)

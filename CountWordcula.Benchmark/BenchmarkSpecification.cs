@@ -1,6 +1,7 @@
 ﻿using BenchmarkDotNet.Attributes;
 using CountWordcula.Backend;
 using CountWordcula.Backend.FileReader;
+using static CountWordcula.Backend.Register.ConfiguratonRegister;
 
 namespace CountWordcula.Benchmark;
 
@@ -18,7 +19,7 @@ public class BenchmarkSpecification
   private string FilePath =>
     Path.Combine(
       Environment.CurrentDirectory,
-      "Samples",
+      SampleInputDirectoryName,
       $"Sample_{WordCount}.txt");
 
   [Params(

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using static CountWordcula.Backend.Register.ConfiguratonRegister;
 
 namespace CountWordcula.Test.TestData;
 
@@ -14,7 +15,7 @@ public class SamplePathProvider : IEnumerable<object[]>
     };
   public IEnumerator<object[]> GetEnumerator()
   {
-    return SampleDataWordCounts.Select(count => new[]{Path.Combine(Environment.CurrentDirectory, "Samples", $"Sample_{count}.txt")}).GetEnumerator();
+    return SampleDataWordCounts.Select(count => new[]{Path.Combine(Environment.CurrentDirectory, SampleInputDirectoryName, $"Sample_{count}.txt")}).GetEnumerator();
   }
 
   IEnumerator IEnumerable.GetEnumerator()

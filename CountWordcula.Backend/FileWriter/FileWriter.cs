@@ -1,4 +1,6 @@
-﻿namespace CountWordcula.Backend.FileWriter;
+﻿using static CountWordcula.Backend.Register.ConfiguratonRegister;
+
+namespace CountWordcula.Backend.FileWriter;
 
 public class FileWriter : IFileWriter
 {
@@ -13,7 +15,7 @@ public class FileWriter : IFileWriter
 
     tasks.Add(WriteFileAsync(
       outputPath,
-      "FILE_EXCLUDED.txt",
+      OutputExcludeFileName,
       new KeyValuePair<string, long>("Excluded words encountered:", wordCount.Excluded)));
 
     await Task.WhenAll(tasks);
