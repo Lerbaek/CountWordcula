@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-namespace CountWordcula.Validate;
+namespace CountWordcula.Backend.Validate;
 
 public class ExcludeFileValidator : AbstractValidator<string[]>
 {

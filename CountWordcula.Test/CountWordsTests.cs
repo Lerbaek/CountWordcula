@@ -9,10 +9,10 @@ namespace CountWordcula.Test
 {
   public class CountWordsTests
   {
-    private readonly CountWords uut;
+    private readonly CountWordsCommand uut;
     private readonly ILogger<CountWordsTests> logger;
 
-    public CountWordsTests(CountWords uut, ILogger<CountWordsTests> logger)
+    public CountWordsTests(CountWordsCommand uut, ILogger<CountWordsTests> logger)
     {
       this.uut = uut;
       this.logger = logger;

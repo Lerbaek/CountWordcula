@@ -2,9 +2,6 @@
 
 public interface IWordCountManager
 {
-  Task ExecuteAsync(
-    string inputPath,
-    string outputPath,
-    string[]? excludedWords = null);
-  Task<string[]> GetExcludedWordsAsync(string inputPath);
+  Task<bool> RunAsync(WordCountConfiguration configuration);
+  Task<bool> RunAsync(string inputPath, string inputExtension, string outputPath, bool force = false);
 }

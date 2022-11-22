@@ -1,9 +1,10 @@
-﻿using CountWordcula.Backend.FileReader;
+﻿using CountWordcula.Backend;
+using CountWordcula.Backend.FileReader;
+using CountWordcula.Backend.FileWriter;
+using CountWordcula.Backend.Validate;
 using CountWordcula.Command;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Xunit.DependencyInjection;
-using Xunit.DependencyInjection.Logging;
 
 namespace CountWordcula.Test;
 
@@ -13,12 +14,14 @@ public class Startup
   {
     services
       .AddSkippableFactSupport()
-      .AddTransient<CountWords>()
+      .AddSingleton<IFileReader, MemoryEfficientParallelFileReader>()
+      .AddSingleton<IFileWriter, FileWriter>()
+      .AddSingleton<IWordCountManager, WordCountManager>()
+      .AddSingleton<CountWordsCommand>()
+      .AddSingleton<WordCountConfigurationValidator>()
+      .AddSingleton<ExcludeFileValidator>()
       .AddSingleton<FluentFileReader>()
       .AddSingleton<MemoryEfficientFileReader>()
       .AddSingleton<MemoryEfficientParallelFileReader>();
   }
-
-  public void Configure(ILoggerFactory loggerFactory, ITestOutputHelperAccessor accessor) =>
-    loggerFactory.AddProvider(new XunitTestOutputLoggerProvider(accessor));
 }

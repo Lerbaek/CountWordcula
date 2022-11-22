@@ -1,28 +1,27 @@
-﻿using CountWordcula.Command;
-using FluentValidation;
+﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
 
-namespace CountWordcula.Validate;
+namespace CountWordcula.Backend.Validate;
 
-public class CountWordsValidator : AbstractValidator<CountWords>
+public class WordCountConfigurationValidator : AbstractValidator<WordCountConfiguration>
 {
-  private readonly ILogger<CountWordsValidator> logger;
+  private readonly ILogger<WordCountConfigurationValidator> logger;
 
-  public CountWordsValidator(ILogger<CountWordsValidator> logger)
+  public WordCountConfigurationValidator(ILogger<WordCountConfigurationValidator> logger)
   {
     this.logger = logger;
 
-    RuleFor(cw => cw.InputPath)
+    RuleFor(config => config.InputPath)
       .Must(BeValidPath)
-      .WithMessage(cw => $"Invalid {nameof(cw.InputPath)} provided: {cw.InputPath}");
+      .WithMessage(config => $"Invalid {nameof(config.InputPath)} provided: {config.InputPath}");
 
-    RuleFor(cw => cw.OutputPath)
+    RuleFor(config => config.OutputPath)
       .Must(BeValidPath)
-      .WithMessage(cw => $"Invalid {nameof(cw.OutputPath)} provided: {cw.OutputPath}");
+      .WithMessage(config => $"Invalid {nameof(config.OutputPath)} provided: {config.OutputPath}");
 
-    RuleFor(cw => cw.Extension)
+    RuleFor(config => config.InputExtension)
       .Must(BeValidExtension)
-      .WithMessage(cw => $"Invalid {nameof(cw.Extension)} provided: {cw.Extension}");
+      .WithMessage(config => $"Invalid {nameof(config.InputExtension)} provided: {config.InputExtension}");
   }
 
   public bool BeValidExtension(string extension)
