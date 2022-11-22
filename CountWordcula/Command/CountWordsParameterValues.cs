@@ -4,12 +4,12 @@ public class CountWordsParameterValues
 {
   #region Names
 
-  public const string CountWordsCommandName = "count-words";
+  public const string CountWordsCommandName = "count";
 
-  public const string InputPathName = "input-path";
+  public const string InputPathName = "input";
   public const string InputPathShortName = "i";
 
-  public const string OutputPathName = "output-path";
+  public const string OutputPathName = "output";
   public const string OutputPathShortName = "o";
 
   public const string ExtensionName = "extension";

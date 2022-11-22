@@ -4,14 +4,10 @@ using Microsoft.Extensions.Logging;
 
 namespace CountWordcula.Backend.Validate;
 
-public class WordCountConfigurationValidator : AbstractValidator<WordCountConfiguration>
+public class WordCountConfigurationValidator : LoggingValidatorBase<WordCountConfiguration>
 {
-  private readonly ILogger<WordCountConfigurationValidator> logger;
-
-  public WordCountConfigurationValidator(ILogger<WordCountConfigurationValidator> logger)
+  public WordCountConfigurationValidator(ILogger<WordCountConfigurationValidator> logger) : base(logger)
   {
-    this.logger = logger;
-
     RuleFor(config => config.InputPath)
       .Must(BeValidPath)
       .WithMessage(config => $"Invalid {nameof(config.InputPath)} provided: {config.InputPath}");
@@ -46,7 +42,7 @@ public class WordCountConfigurationValidator : AbstractValidator<WordCountConfig
             .Contains(expectedFileName))
         continue;
 
-      logger.LogError("Found existing output file: {FileName}", expectedFileName);
+      Logger.LogError("Found existing output file: {FileName} in {OutputPath}", expectedFileName, config.OutputPath);
       return false;
     }
 
@@ -57,20 +53,20 @@ public class WordCountConfigurationValidator : AbstractValidator<WordCountConfig
   {
     if (string.IsNullOrWhiteSpace(extension))
     {
-      logger.LogError("File extension may not be empty.");
+      Logger.LogError("File extension may not be empty.");
       return false;
     }
 
     if (extension.Any(e => e.Equals(' ')))
     {
-      logger.LogError("File extension may not contain spaces.");
+      Logger.LogError("File extension may not contain spaces.");
       return false;
     }
 
     var invalidCharacters = extension.Intersect(Path.GetInvalidPathChars()).ToArray();
     if (invalidCharacters.Any())
     {
-      logger.LogError(
+      Logger.LogError(
         "File contains the following illegal characters: {InvalidCharacters}",
         new string(invalidCharacters));
       return false;
@@ -84,7 +80,7 @@ public class WordCountConfigurationValidator : AbstractValidator<WordCountConfig
     {
       if (string.IsNullOrWhiteSpace(path))
       {
-        logger.LogError("Path may not be empty.");
+        Logger.LogError("Path may not be empty.");
         return false;
       }
       try
@@ -94,7 +90,7 @@ public class WordCountConfigurationValidator : AbstractValidator<WordCountConfig
       }
       catch (Exception e)
       {
-        logger.LogError(
+        Logger.LogError(
           e,
           "{InvalidPath} is not a valid path.",
           path);

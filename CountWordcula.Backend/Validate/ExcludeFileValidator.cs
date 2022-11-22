@@ -3,14 +3,10 @@ using Microsoft.Extensions.Logging;
 
 namespace CountWordcula.Backend.Validate;
 
-public class ExcludeFileValidator : AbstractValidator<string[]>
+public class ExcludeFileValidator : LoggingValidatorBase<string[]>
 {
-  private readonly ILogger<ExcludeFileValidator> logger;
-
-  public ExcludeFileValidator(ILogger<ExcludeFileValidator> logger)
+  public ExcludeFileValidator(ILogger<ExcludeFileValidator> logger) : base(logger)
   {
-    this.logger = logger;
-
     RuleForEach(words => words)
       .Must(BeSingleWord)
       .WithMessage(
@@ -22,7 +18,7 @@ public class ExcludeFileValidator : AbstractValidator<string[]>
   {
     if(string.IsNullOrEmpty(word))
     {
-      logger.LogError("Excluded word line may not be empty.");
+      Logger.LogError("Excluded word line may not be empty.");
       return false;
     }
 
@@ -37,7 +33,7 @@ public class ExcludeFileValidator : AbstractValidator<string[]>
     if (!invalidCharacters.Any())
       return true;
 
-    logger.LogError("Word {Word} contains the following invalid character(s): '{InvalidCharacters}'", word, string.Join("', '", invalidCharacters));
+    Logger.LogError("Word {Word} contains the following invalid character(s): '{InvalidCharacters}'", word, string.Join("', '", invalidCharacters));
     return false;
   }
 }

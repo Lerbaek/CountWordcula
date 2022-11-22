@@ -173,7 +173,6 @@ namespace CountWordcula.Test
     private static bool IsExcludeFile(string filePath) =>
       filePath.EndsWith(OutputExcludeFileName);
 
-    private string[]? outputFiles;
     private readonly WordCountConfiguration configuration;
 
     private async Task<string[]> GetOutputFiles()
@@ -190,7 +189,7 @@ namespace CountWordcula.Test
           configuration.OutputPath!,
           configuration.Force);
 
-        return outputFiles = Directory.GetFiles(configuration.OutputPath!);
+        return Directory.GetFiles(configuration.OutputPath!);
     }
   }
 }

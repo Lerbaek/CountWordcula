@@ -6,7 +6,7 @@ public class FileWriter : IFileWriter
 {
   public async Task WriteOutputFilesAsync(string outputPath, WordCount wordCount)
   {
-    if (Directory.Exists(outputPath))
+    if (!Directory.Exists(outputPath))
       Directory.CreateDirectory(outputPath);
 
     var tasks = wordCount
