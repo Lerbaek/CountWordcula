@@ -75,7 +75,7 @@ namespace CountWordcula.Test
       }
 
       var fileName = OutputFileName(letter);
-      var filePath = Path.Combine(configuration.OutputPath, fileName);
+      var filePath = Path.Combine(configuration.OutputPath!, fileName);
       var fileExists = File.Exists(filePath);
 
       using (new AssertionScope())
@@ -143,7 +143,7 @@ namespace CountWordcula.Test
 
     private async Task<string[]> ReadExcludedWords()
     {
-      var excludeFilePath = Path.Combine(configuration.InputPath, InputExcludeFileName);
+      var excludeFilePath = Path.Combine(configuration.InputPath!, InputExcludeFileName);
       var excludedWords = await File.ReadAllLinesAsync(excludeFilePath);
       return excludedWords;
     }
@@ -151,7 +151,7 @@ namespace CountWordcula.Test
     private async Task<string[]> ReadInputWords()
     {
       var inputFiles =
-        Directory.GetFiles(configuration.InputPath)
+        Directory.GetFiles(configuration.InputPath!)
           .Where(
             filePath => Path.GetFileName(filePath)
               .StartsWith("Sample"));
@@ -178,17 +178,19 @@ namespace CountWordcula.Test
 
     private async Task<string[]> GetOutputFiles()
     {
-        if (outputFiles != null)
-          return outputFiles;
-
         if(Directory.Exists(configuration.OutputPath) && configuration.Force)
           Directory.Delete(configuration.OutputPath, true);
 
         if (!Directory.Exists(configuration.OutputPath))
-          Directory.CreateDirectory(configuration.OutputPath);
+          Directory.CreateDirectory(configuration.OutputPath!);
 
-        await uut.RunAsync(configuration);
-        return outputFiles = Directory.GetFiles(configuration.OutputPath);
+        await uut.RunAsync(
+          configuration.InputPath!,
+          configuration.InputExtension!,
+          configuration.OutputPath!,
+          configuration.Force);
+
+        return outputFiles = Directory.GetFiles(configuration.OutputPath!);
     }
   }
 }

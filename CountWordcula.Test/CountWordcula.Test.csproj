@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <Folder Include="FileRead\" />
+    <Folder Include="Validate\" />
   </ItemGroup>
 
 </Project>

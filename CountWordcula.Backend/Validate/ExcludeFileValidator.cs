@@ -20,6 +20,12 @@ public class ExcludeFileValidator : AbstractValidator<string[]>
 
   public bool BeSingleWord(string word)
   {
+    if(string.IsNullOrEmpty(word))
+    {
+      logger.LogError("Excluded word line may not be empty.");
+      return false;
+    }
+
     var invalidCharacters = word.Where(
         c => c is not (>= '0' and <= '9')
           and not (>= 'A' and <= 'Z')

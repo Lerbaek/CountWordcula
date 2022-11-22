@@ -24,7 +24,7 @@ public class WordCountConfigurationValidator : AbstractValidator<WordCountConfig
       .WithMessage(config => $"Invalid {nameof(config.InputExtension)} provided: {config.InputExtension}");
   }
 
-  public bool BeValidExtension(string extension)
+  public bool BeValidExtension(string? extension)
   {
     if (string.IsNullOrWhiteSpace(extension))
     {
@@ -50,9 +50,14 @@ public class WordCountConfigurationValidator : AbstractValidator<WordCountConfig
     return true;
   }
 
-  private Func<string, bool> BeValidPath =>
+  private Func<string?, bool> BeValidPath =>
     path =>
     {
+      if (string.IsNullOrWhiteSpace(path))
+      {
+        logger.LogError("Path may not be empty.");
+        return false;
+      }
       try
       {
         Path.GetFullPath(path);

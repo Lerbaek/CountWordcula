@@ -13,10 +13,17 @@ public class SamplePathProvider : IEnumerable<object[]>
       5000,
       10000
     };
-  public IEnumerator<object[]> GetEnumerator()
-  {
-    return SampleDataWordCounts.Select(count => new[]{Path.Combine(Environment.CurrentDirectory, SampleInputDirectoryName, $"Sample_{count}.txt")}).GetEnumerator();
-  }
+
+  public IEnumerator<object[]> GetEnumerator() =>
+    SampleDataWordCounts.Select(
+        count => new[]
+        {
+          Path.Combine(
+            Environment.CurrentDirectory,
+            SampleInputDirectoryName,
+            $"Sample_{count}.txt")
+        })
+      .GetEnumerator();
 
   IEnumerator IEnumerable.GetEnumerator()
   {

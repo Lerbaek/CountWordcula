@@ -34,7 +34,7 @@ public class WordCountManager : IWordCountManager
 
   public async Task<bool> RunAsync(WordCountConfiguration configuration)
   {
-    var excludedWords = await GetExcludedWordsAsync(configuration.InputPath);
+    var excludedWords = await GetExcludedWordsAsync(configuration.InputPath!);
     if (!await Validate(configuration, excludedWords))
       return false;
     await ExecuteAsync(configuration, excludedWords);
@@ -55,15 +55,15 @@ public class WordCountManager : IWordCountManager
     string[]? excludedWords = null)
   {
     var inputFileNames = Directory
-      .GetFiles(configuration.InputPath)
-      .Where(fileName => fileName.EndsWith(configuration.InputExtension) && !fileName.EndsWith(InputExcludeFileName));
+      .GetFiles(configuration.InputPath!)
+      .Where(fileName => fileName.EndsWith(configuration.InputExtension!) && !fileName.EndsWith(InputExcludeFileName));
 
-    excludedWords ??= await GetExcludedWordsAsync(configuration.InputPath);
+    excludedWords ??= await GetExcludedWordsAsync(configuration.InputPath!);
     var wordCountTasks = inputFileNames.Select(fileName => fileReader.GetWordCountAsync(fileName, excludedWords));
     var wordCounts = await Task.WhenAll(wordCountTasks);
 
     var wordCount = WordCount.Combine(wordCounts);
-    await fileWriter.WriteOutputFilesAsync(configuration.OutputPath, wordCount);
+    await fileWriter.WriteOutputFilesAsync(configuration.OutputPath!, wordCount);
   }
 
   private static async Task<string[]> GetExcludedWordsAsync(string inputPath)

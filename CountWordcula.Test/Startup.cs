@@ -4,7 +4,10 @@ using CountWordcula.Backend.FileWrite;
 using CountWordcula.Backend.Validate;
 using CountWordcula.Command;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using Xunit.DependencyInjection;
+using Xunit.DependencyInjection.Logging;
 
 namespace CountWordcula.Test;
 
@@ -24,4 +27,7 @@ public class Startup
       .AddSingleton<MemoryEfficientFileReader>()
       .AddSingleton<ConcurrentLinesFileReader>();
   }
+
+  public void Configure(ILoggerFactory loggerFactory, ITestOutputHelperAccessor accessor) =>
+    loggerFactory.AddProvider(new XunitTestOutputLoggerProvider(accessor));
 }
