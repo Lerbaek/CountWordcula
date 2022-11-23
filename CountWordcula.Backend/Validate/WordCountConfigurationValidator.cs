@@ -4,8 +4,12 @@ using Microsoft.Extensions.Logging;
 
 namespace CountWordcula.Backend.Validate;
 
+/// <summary>
+/// Validate values read from input files.
+/// </summary>
 public class WordCountConfigurationValidator : LoggingValidatorBase<WordCountConfiguration>
 {
+  /// <inheritdoc cref="WordCountConfigurationValidator"/>
   public WordCountConfigurationValidator(ILogger<WordCountConfigurationValidator> logger) : base(logger)
   {
     RuleFor(config => config.InputPath)
@@ -25,6 +29,9 @@ public class WordCountConfigurationValidator : LoggingValidatorBase<WordCountCon
       .WithMessage(config => $"To overwrite existing files, {nameof(config.Force)} flag must be set true");
   }
 
+  /// <summary>
+  /// Validate that the <see cref="WordCountConfiguration.Force"/> parameter is true, or that we don't have to overwrite any existing files.
+  /// </summary>
   public bool BeTrueOrNotOverwriteFiles(WordCountConfiguration config)
   {
     if (config.Force || !BeValidPath(config.OutputPath) || !Directory.Exists(config.OutputPath))
@@ -49,6 +56,9 @@ public class WordCountConfigurationValidator : LoggingValidatorBase<WordCountCon
     return true;
   }
 
+  /// <summary>
+  /// Validate that the <see cref="WordCountConfiguration.InputExtension"/> parameter has a valid value.
+  /// </summary>
   public bool BeValidExtension(string? extension)
   {
     if (string.IsNullOrWhiteSpace(extension))

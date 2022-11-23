@@ -1,6 +1,5 @@
 ﻿using CountWordcula.Backend.FileRead;
 using CountWordcula.Backend.FileWrite;
-using CountWordcula.Backend.Registry;
 using CountWordcula.Backend.Validate;
 using Microsoft.Extensions.Logging;
 using static CountWordcula.Backend.Registry.ConfigurationRegistry;
@@ -31,6 +30,7 @@ public class WordCountManager : IWordCountManager
     this.logger = logger;
   }
 
+  /// <inheritdoc/>
   public async Task<bool> RunAsync(string inputPath, string inputExtension, string outputPath, bool force = false) =>
     await RunAsync(
       new WordCountConfiguration(
@@ -39,6 +39,7 @@ public class WordCountManager : IWordCountManager
         outputPath,
         force));
 
+  /// <inheritdoc/>
   public async Task<bool> RunAsync(WordCountConfiguration configuration)
   {
     logger.LogInformation("Reading excluded words.");

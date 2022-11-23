@@ -5,6 +5,7 @@ namespace CountWordcula.Backend.FileWrite;
 /// <inheritdoc />
 public class FileWriter : IFileWriter
 {
+  /// <inheritdoc/>
   public async Task WriteOutputFilesAsync(string outputPath, WordCount wordCount)
   {
     if (!Directory.Exists(outputPath))

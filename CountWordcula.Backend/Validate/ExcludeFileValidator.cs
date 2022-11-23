@@ -3,8 +3,12 @@ using Microsoft.Extensions.Logging;
 
 namespace CountWordcula.Backend.Validate;
 
+/// <summary>
+/// Validate contents of a file containing words to be excluded on separate lines.
+/// </summary>
 public class ExcludeFileValidator : LoggingValidatorBase<string[]>
 {
+  /// <inheritdoc/>
   public ExcludeFileValidator(ILogger<ExcludeFileValidator> logger) : base(logger)
   {
     RuleForEach(words => words)
@@ -14,6 +18,10 @@ public class ExcludeFileValidator : LoggingValidatorBase<string[]>
           "All excluded words in exclude.txt must be on separate lines with no special characters except \" - \" (dash) or \" ' \" (apostrophe).");
   }
 
+  /// <summary>
+  /// Validate that <paramref name="word"/> is a single word and nothing else.
+  /// </summary>
+  /// <param name="word">Word to be validated.</param>
   public bool BeSingleWord(string word)
   {
     if(string.IsNullOrEmpty(word))

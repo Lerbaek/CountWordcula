@@ -1,7 +1,11 @@
 ﻿namespace CountWordcula.Backend.FileRead;
 
+/// <summary>
+/// A file reader with focus on low memory usage rather than performance.
+/// </summary>
 public class MemoryEfficientFileReader : IFileReader
 {
+  /// <inheritdoc />
   public Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude)
   {
     using var reader = File.OpenText(fileName);

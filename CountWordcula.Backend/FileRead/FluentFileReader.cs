@@ -1,7 +1,12 @@
 ﻿namespace CountWordcula.Backend.FileRead;
 
+/// <summary>
+/// A file reader with a focus on a simple, fluent implementation which is easy to follow,
+/// but not very optimized.
+/// </summary>
 public class FluentFileReader : IFileReader
 {
+  /// <inheritdoc />
   public async Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude)
   {
     var allText = await File.ReadAllTextAsync(fileName);

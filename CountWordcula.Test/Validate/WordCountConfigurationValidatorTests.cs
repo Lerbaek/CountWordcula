@@ -2,7 +2,6 @@
 using CountWordcula.Backend.Registry;
 using CountWordcula.Backend.Validate;
 using FluentAssertions;
-using FluentAssertions.Execution;
 using Xunit;
 
 namespace CountWordcula.Test.Validate;

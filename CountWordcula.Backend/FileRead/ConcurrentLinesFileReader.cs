@@ -1,7 +1,13 @@
 ﻿namespace CountWordcula.Backend.FileRead;
 
+/// <summary>
+/// A file reader with focus on CPU utilization, where each line in a file
+/// is handled by a different thread.
+/// Will perform better with more than one or a few lines.
+/// </summary>
 public class ConcurrentLinesFileReader : IFileReader
 {
+  /// <inheritdoc />
   public async Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude)
   {
     using var reader = File.OpenText(fileName);
