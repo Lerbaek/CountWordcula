@@ -1,5 +1,9 @@
-﻿using CountWordcula.Backend.FileRead;
+﻿using CountWordcula.Backend;
+using CountWordcula.Backend.FileRead;
+using CountWordcula.Backend.FileWrite;
 using CountWordcula.Backend.Registry;
+using CountWordcula.Backend.Validate;
+using Microsoft.Extensions.Logging;
 
 namespace CountWordcula.Profiling
 {
@@ -19,7 +23,7 @@ namespace CountWordcula.Profiling
       IFileReader fileReader = new
 
         // Memory usage: 1.5 GB
-        FluentFileReader
+        //FluentFileReader
 
         // Memory usage: 666 MB
         //ConcurrentLinesFileReader
@@ -28,10 +32,27 @@ namespace CountWordcula.Profiling
         //ConcurrentBlocksFileReader
 
         // Memory usage: 17 MB
-        //MemoryEfficientFileReader
+        MemoryEfficientFileReader
         ();
       
-      _ = await fileReader.GetWordCountAsync(SampleFileName);
+      //var result = await fileReader.GetWordCountAsync(SampleFileName);
+
+      var manager = new WordCountManager(
+        fileReader,
+        new FileWriter(),
+        new WordCountConfigurationValidator(ConsoleLogger<WordCountConfigurationValidator>()),
+        new ExcludeFileValidator(ConsoleLogger<ExcludeFileValidator>()),
+        ConsoleLogger<WordCountManager>());
+
+      // Memory usage with MemoryEfficientFileReader: 18 MB
+
+      await manager.RunAsync(
+        ConfigurationRegistry.SampleInputDirectoryName,
+        "txt",
+        ConfigurationRegistry.ResultDirectoryName,
+        true);
     }
+
+    public static Logger<T> ConsoleLogger<T>() => new(LoggerFactory.Create(c => c.AddConsole()));
   }
 }

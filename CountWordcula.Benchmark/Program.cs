@@ -1,6 +1,6 @@
-﻿using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Running;
-using static CountWordcula.Profiling.Program;
+﻿using BenchmarkDotNet.Running;
+using CountWordcula.Benchmark.Specification;
+using Microsoft.Extensions.Logging;
 
 namespace CountWordcula.Benchmark
 {
@@ -13,5 +13,6 @@ namespace CountWordcula.Benchmark
         WordCountManagerBenchmarkSpecification
       >();
     }
+
   }
 }
