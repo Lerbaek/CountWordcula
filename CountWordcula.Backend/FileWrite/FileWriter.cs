@@ -20,8 +20,13 @@ public class FileWriter : IFileWriter
 
     tasks.Add(WriteFileAsync(
       outputPath,
-      OutputExcludeFileName,
+      OutputExcludedFileName,
       new KeyValuePair<string, long>("Excluded words encountered:", wordCount.Excluded)));
+
+    tasks.Add(WriteFileAsync(
+      outputPath,
+      OutputIncludedFileName,
+      new KeyValuePair<string, long>("Total word count:", wordCount.Sum(wc => wc.Value))));
 
     await Task.WhenAll(tasks);
   }
