@@ -27,6 +27,9 @@
     <None Update="Samples\Sample_10000.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Samples\Sample_10000000.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Samples\Sample_200.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -9,7 +9,7 @@ namespace CountWordcula.Benchmark;
 public class BenchmarkSpecification
 
 {
-  [Params(typeof(FluentFileReader), typeof(MemoryEfficientFileReader), typeof(ConcurrentLinesFileReader))]
+  [Params(typeof(FluentFileReader), typeof(MemoryEfficientFileReader), typeof(ConcurrentLinesFileReader), typeof(ConcurrentBlocksFileReader))]
   public Type FileReaderType { get; set; } = null!;
 
   private IFileReader FileReader =>
@@ -30,11 +30,12 @@ public class BenchmarkSpecification
     5000
     ,
     10000
+    ,
+    10000000
     )]
   public int WordCount { get; set; }
 
 
   [Benchmark]
-  public async Task<WordCount> FileReaderBenchmark() =>
-    await FileReader.GetWordCountAsync(FilePath);
+  public async Task<WordCount> FileReaderBenchmark() => await FileReader.GetWordCountAsync(FilePath);
 }

@@ -1,12 +1,10 @@
 ﻿using BenchmarkDotNet.Running;
+using static CountWordcula.Profiling.Program;
 
 namespace CountWordcula.Benchmark
 {
   internal class Program
   {
-    static void Main(string[] args)
-    {
-      BenchmarkRunner.Run<BenchmarkSpecification>();
-    }
+    static void Main() => BenchmarkRunner.Run<BenchmarkSpecification>();
   }
 }

@@ -24,6 +24,7 @@ public class Startup
       .AddSingleton<ExcludeFileValidator>()
       .AddSingleton<FluentFileReader>()
       .AddSingleton<MemoryEfficientFileReader>()
+      .AddSingleton<ConcurrentBlocksFileReader>()
       .AddSingleton<ConcurrentLinesFileReader>();
   }
 

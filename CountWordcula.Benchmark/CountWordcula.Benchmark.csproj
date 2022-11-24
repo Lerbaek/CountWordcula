@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CountWordcula.Backend\CountWordcula.Backend.csproj" />
+    <ProjectReference Include="..\CountWordcula.Profiling\CountWordcula.Profiling.csproj" />
   </ItemGroup>
 
 </Project>
