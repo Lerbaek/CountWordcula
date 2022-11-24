@@ -16,10 +16,13 @@ public class MemoryEfficientFileReader : IFileReader
       var character = (char)reader.Read();
       if (character is '.' or ',')
         continue;
-      if (character is ' ' or '\r' or '\n' && !string.IsNullOrWhiteSpace(word))
+      if (character is ' ' or '\r' or '\n')
       {
-        CountWord(word, wordCount, exclude);
-        word = string.Empty;
+        if(!string.IsNullOrWhiteSpace(word))
+        {
+          CountWord(word, wordCount, exclude);
+          word = string.Empty;
+        }
       }
       else
         word += char.ToUpperInvariant(character);
