@@ -6,32 +6,40 @@
 public class MemoryEfficientFileReader : IFileReader
 {
   /// <inheritdoc />
-  public Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude)
-  {
-    using var reader = File.OpenText(fileName);
-    var word = string.Empty;
-    var wordCount = new WordCount();
-    while (reader.Peek() >= 0)
-    {
-      var character = (char)reader.Read();
-      if (character is '.' or ',')
-        continue;
-      if (character is ' ' or '\r' or '\n')
+  public Task<WordCount> GetWordCountAsync(string fileName, params string[] exclude) =>
+    Task.Run(
+      () =>
       {
-        if(!string.IsNullOrWhiteSpace(word))
+        using var reader = File.OpenText(fileName);
+        var word = string.Empty;
+        var wordCount = new WordCount();
+        while (reader.Peek() >= 0)
         {
-          CountWord(word, wordCount, exclude);
-          word = string.Empty;
-        }
-      }
-      else
-        word += char.ToUpperInvariant(character);
-    }
-    if(!string.IsNullOrWhiteSpace(word))
-      CountWord(word, wordCount, exclude);
+          var character = (char)reader.Read();
+          if (character is '.' or ',')
+            continue;
+          if (character is ' ' or '\r' or '\n')
+          {
+            if (string.IsNullOrWhiteSpace(word))
+              continue;
 
-    return Task.FromResult(wordCount);
-  }
+            CountWord(
+              word,
+              wordCount,
+              exclude);
+            word = string.Empty;
+          }
+          else
+            word += char.ToUpperInvariant(character);
+        }
+
+        if (!string.IsNullOrWhiteSpace(word))
+          CountWord(
+            word,
+            wordCount,
+            exclude);
+        return wordCount;
+      });
 
   private void CountWord(string word, WordCount wordCount, string[] exclude)
   {
