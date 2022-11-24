@@ -9,11 +9,24 @@
 
   <ItemGroup>
     <PackageReference Include="BenchmarkDotNet" Version="0.13.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\CountWordcula.Backend\CountWordcula.Backend.csproj" />
     <ProjectReference Include="..\CountWordcula.Profiling\CountWordcula.Profiling.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Samples\Sample_10000001.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\Sample_10000002.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Samples\Sample_10000003.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

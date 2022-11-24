@@ -11,4 +11,10 @@
     <ProjectReference Include="..\CountWordcula.Backend\CountWordcula.Backend.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Samples\Sample_10000000.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

@@ -111,7 +111,7 @@ namespace CountWordcula.Test
 
     private static async Task<long> ResolveOutputExcludedWordsCount(string[] outputFilePaths)
     {
-      var outputExcludedWordsFilePath = outputFilePaths.Single(IsExcludeFile);
+      var outputExcludedWordsFilePath = outputFilePaths.Single(filePath => filePath.EndsWith(OutputExcludedFileName));
       var outputExcludeFileText = await File.ReadAllTextAsync(outputExcludedWordsFilePath);
       var outputExcludedWordsCount = long.Parse(
         outputExcludeFileText.Split().Last());
@@ -121,7 +121,7 @@ namespace CountWordcula.Test
     private static Dictionary<string, long> ReadOutputWordCount(string[] outputFilePaths)
     {
       var outputWordCount = outputFilePaths
-        .Where(filePath => !IsExcludeFile(filePath))
+        .Where(filePath => !IsSummaryFile(filePath))
         .SelectMany(
           filePath => File
             .ReadAllLines(filePath)
@@ -170,8 +170,8 @@ namespace CountWordcula.Test
       return sanitizedInputWords;
     }
 
-    private static bool IsExcludeFile(string filePath) =>
-      filePath.EndsWith(OutputExcludeFileName);
+    private static bool IsSummaryFile(string filePath) =>
+      filePath.EndsWith(OutputExcludedFileName) || filePath.EndsWith(OutputIncludedFileName);
 
     private readonly WordCountConfiguration configuration;
 
