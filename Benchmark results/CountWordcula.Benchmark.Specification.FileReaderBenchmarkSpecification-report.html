@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+<meta charset='utf-8' />
+<title>CountWordcula.Benchmark.Specification.FileReaderBenchmarkSpecification-20221125-010422</title>
+
+<style type="text/css">
+	table { border-collapse: collapse; display: block; width: 100%; overflow: auto; }
+	td, th { padding: 6px 13px; border: 1px solid #ddd; text-align: right; }
+	tr { background-color: #fff; border-top: 1px solid #ccc; }
+	tr:nth-child(even) { background: #f8f8f8; }
+</style>
+</head>
+<body>
+<pre><code>
+BenchmarkDotNet=v0.13.2, OS=Windows 11 (10.0.22000.1219/21H2)
+Intel Core i7-8550U CPU 1.80GHz (Kaby Lake R), 1 CPU, 8 logical and 4 physical cores
+.NET SDK=7.0.100
+  [Host]     : .NET 7.0.0 (7.0.22.51805), X64 RyuJIT AVX2
+  DefaultJob : .NET 7.0.0 (7.0.22.51805), X64 RyuJIT AVX2
+</code></pre>
+<pre><code></code></pre>
+
+<table>
+<thead><tr><th>       Method</th><th>WordCount</th><th>      FileReaderType</th><th>     Mean</th><th>  Error</th><th> StdDev</th><th>   Median</th><th>   Gen0</th><th> Gen1</th><th>Gen2</th><th>Allocated</th>
+</tr>
+</thead><tbody><tr><td>FileReaderBenchmark</td><td>200</td><td>ConcurrentBlocksFileReader</td><td>437.4 &mu;s</td><td>8.68 &mu;s</td><td>14.97 &mu;s</td><td>433.6 &mu;s</td><td>445.3125</td><td>0.4883</td><td>-</td><td>1819.51 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>200</td><td>ConcurrentLinesFileReader</td><td>278.9 &mu;s</td><td>2.70 &mu;s</td><td>2.39 &mu;s</td><td>278.2 &mu;s</td><td>15.6250</td><td>0.4883</td><td>-</td><td>61.28 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>200</td><td>FluentFileReader</td><td>321.6 &mu;s</td><td>4.06 &mu;s</td><td>3.80 &mu;s</td><td>322.1 &mu;s</td><td>18.0664</td><td>0.9766</td><td>-</td><td>71.91 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>200</td><td>MemoryEfficientFileReader</td><td>240.7 &mu;s</td><td>4.78 &mu;s</td><td>5.50 &mu;s</td><td>239.8 &mu;s</td><td>18.0664</td><td>0.2441</td><td>-</td><td>73.3 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>2000</td><td>ConcurrentBlocksFileReader</td><td>4,366.9 &mu;s</td><td>87.16 &mu;s</td><td>241.52 &mu;s</td><td>4,449.8 &mu;s</td><td>6562.5000</td><td>7.8125</td><td>-</td><td>26781.03 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>2000</td><td>ConcurrentLinesFileReader</td><td>816.9 &mu;s</td><td>16.33 &mu;s</td><td>38.81 &mu;s</td><td>814.3 &mu;s</td><td>108.3984</td><td>0.9766</td><td>-</td><td>429.57 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>2000</td><td>FluentFileReader</td><td>929.8 &mu;s</td><td>18.50 &mu;s</td><td>32.40 &mu;s</td><td>930.5 &mu;s</td><td>93.7500</td><td>25.3906</td><td>-</td><td>400.66 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>2000</td><td>MemoryEfficientFileReader</td><td>852.9 &mu;s</td><td>17.01 &mu;s</td><td>28.88 &mu;s</td><td>847.7 &mu;s</td><td>142.5781</td><td>-</td><td>-</td><td>584.47 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>5000</td><td>ConcurrentBlocksFileReader</td><td>10,694.4 &mu;s</td><td>212.08 &mu;s</td><td>365.83 &mu;s</td><td>10,726.4 &mu;s</td><td>16515.6250</td><td>78.1250</td><td>15.6250</td><td>68020.92 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>5000</td><td>ConcurrentLinesFileReader</td><td>1,602.1 &mu;s</td><td>27.91 &mu;s</td><td>21.79 &mu;s</td><td>1,602.7 &mu;s</td><td>220.7031</td><td>123.0469</td><td>-</td><td>1063.47 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>5000</td><td>FluentFileReader</td><td>2,021.2 &mu;s</td><td>39.52 &mu;s</td><td>43.93 &mu;s</td><td>2,023.3 &mu;s</td><td>171.8750</td><td>125.0000</td><td>-</td><td>923.82 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>5000</td><td>MemoryEfficientFileReader</td><td>1,870.3 &mu;s</td><td>37.26 &mu;s</td><td>36.59 &mu;s</td><td>1,874.7 &mu;s</td><td>347.6563</td><td>3.9063</td><td>-</td><td>1425.52 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000</td><td>ConcurrentBlocksFileReader</td><td>20,924.7 &mu;s</td><td>408.35 &mu;s</td><td>419.34 &mu;s</td><td>20,789.4 &mu;s</td><td>33281.2500</td><td>156.2500</td><td>62.5000</td><td>137097.24 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000</td><td>ConcurrentLinesFileReader</td><td>2,872.3 &mu;s</td><td>57.19 &mu;s</td><td>72.32 &mu;s</td><td>2,851.9 &mu;s</td><td>394.5313</td><td>316.4063</td><td>-</td><td>2106.89 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000</td><td>FluentFileReader</td><td>3,906.2 &mu;s</td><td>62.35 &mu;s</td><td>74.22 &mu;s</td><td>3,897.4 &mu;s</td><td>289.0625</td><td>242.1875</td><td>39.0625</td><td>1761.65 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000</td><td>MemoryEfficientFileReader</td><td>3,364.5 &mu;s</td><td>55.06 &mu;s</td><td>45.98 &mu;s</td><td>3,369.1 &mu;s</td><td>699.2188</td><td>3.9063</td><td>-</td><td>2853.75 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000000</td><td>ConcurrentBlocksFileReader</td><td>19,382,247.5 &mu;s</td><td>240,274.02 &mu;s</td><td>224,752.47 &mu;s</td><td>19,420,478.7 &mu;s</td><td>33299000.0000</td><td>107000.0000</td><td>1000.0000</td><td>137264383.67 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000000</td><td>ConcurrentLinesFileReader</td><td>4,569,241.2 &mu;s</td><td>89,563.52 &mu;s</td><td>106,619.00 &mu;s</td><td>4,582,843.3 &mu;s</td><td>357000.0000</td><td>119000.0000</td><td>6000.0000</td><td>2080132.63 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000000</td><td>FluentFileReader</td><td>5,815,762.2 &mu;s</td><td>62,533.90 &mu;s</td><td>58,494.25 &mu;s</td><td>5,837,754.2 &mu;s</td><td>214000.0000</td><td>90000.0000</td><td>2000.0000</td><td>1807716.02 KB</td>
+</tr><tr><td>FileReaderBenchmark</td><td>10000000</td><td>MemoryEfficientFileReader</td><td>2,414,839.5 &mu;s</td><td>33,523.54 &mu;s</td><td>27,993.68 &mu;s</td><td>2,413,734.9 &mu;s</td><td>694000.0000</td><td>-</td><td>-</td><td>2835269.73 KB</td>
+</tr></tbody></table>
+</body>
+</html>
